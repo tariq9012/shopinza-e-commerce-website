@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopina - Checkout</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="dark.css" />
+</head>
+<body>
+
+<header class="navbar-dark">
+    <div class="navbar-container">
+        <a href="index.html" class="logo">Shopina</a>
+        <div class="secure-note"><span class="material-symbols-outlined" style="font-size:18px">lock</span> Secure Checkout</div>
+    </div>
+</header>
+
+<main class="dark-main">
+
+    <div class="dark-page-header">
+        <h1>Checkout</h1>
+        <p>Complete your order details below.</p>
+    </div>
+
+    <div class="checkout-layout">
+
+        <div class="checkout-forms">
+
+            <div class="step-tracker">
+                <div class="step done">
+                    <div class="step-icon"><span class="material-symbols-outlined" style="font-size:18px">check</span></div>
+                    <span class="label">Information</span>
+                </div>
+                <div class="step active">
+                    <div class="step-icon">2</div>
+                    <span class="label">Shipping</span>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <span class="label">Payment</span>
+                </div>
+            </div>
+
+            <section class="form-panel">
+                <h2><span class="material-symbols-outlined">local_shipping</span> Shipping Address</h2>
+                <form>
+                    <div class="form-row">
+                        <div class="field">
+                            <label for="first-name">First Name</label>
+                            <input id="first-name" type="text" placeholder="Jane" />
+                        </div>
+                        <div class="field">
+                            <label for="last-name">Last Name</label>
+                            <input id="last-name" type="text" placeholder="Doe" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="address">Address</label>
+                        <input id="address" type="text" placeholder="123 Luxury Ave, Suite 400" />
+                    </div>
+                    <div class="form-row three">
+                        <div class="field">
+                            <label for="city">City</label>
+                            <input id="city" type="text" placeholder="New York" />
+                        </div>
+                        <div class="field">
+                            <label for="state">State/Province</label>
+                            <select id="state">
+                                <option disabled selected value="">Select State</option>
+                                <option value="NY">New York</option>
+                                <option value="CA">California</option>
+                                <option value="TX">Texas</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="zip">ZIP / Postal Code</label>
+                            <input id="zip" type="text" placeholder="10001" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone (Optional)</label>
+                        <input id="phone" type="tel" placeholder="+1 (555) 000-0000" />
+                    </div>
+                    <div class="checkbox-row">
+                        <input id="save-address" type="checkbox" />
+                        <label for="save-address">Save this address for next time</label>
+                    </div>
+                </form>
+            </section>
+
+            <section class="form-panel">
+                <h2><span class="material-symbols-outlined">flight_takeoff</span> Shipping Method</h2>
+                <div class="shipping-options">
+                    <label class="shipping-option">
+                        <input type="radio" name="shipping_method" checked />
+                        <div class="shipping-option-text">
+                            <span class="title">Standard Shipping</span>
+                            <span class="subtitle">3-5 Business Days</span>
+                        </div>
+                        <div>Free</div>
+                    </label>
+                    <label class="shipping-option">
+                        <input type="radio" name="shipping_method" />
+                        <div class="shipping-option-text">
+                            <span class="title">Express Courier</span>
+                            <span class="subtitle">1-2 Business Days</span>
+                        </div>
+                        <div>$25.00</div>
+                    </label>
+                </div>
+            </section>
+
+            <div class="checkout-actions">
+                <a href="cart.html" class="link-back"><span class="material-symbols-outlined" style="font-size:18px">arrow_back</span> Return to Cart</a>
+                <button class="btn-continue">Continue to Payment <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
+            </div>
+
+        </div>
+
+        <div class="checkout-summary">
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+
+                <div class="summary-item">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQm9IR9IJfW-tp62yJkjHFw0blY7SkBwFNs1XSEexInNFaqZc86OsLANc1IKkZH_xCB-L5dCKoFJQGhfDBH46JCYkOluBiNo9bAzPWXJml5RpyFmm_N7y8gh-nqFLjsbTdKMEmtuQBwDHx0ufmwqbLoCWlVOw_46g3fSSvQootnn9QO_SWC_vYdoo7rWz97FGHb9hpN1i9VFAnT9-XwtZfA_SumC98KspGeM8_S2CzoH5bGwtKJmz70Q" alt="Obsidian Chronograph" />
+                    <div class="summary-item-info">
+                        <span class="name">Obsidian Chronograph</span>
+                        Qty 1 · $450.00
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_xgCstgdb4FAKscow4wEpDozB8ISwRmlOWqNHXwy9bRIYVA-CLNNMGlBMl0k23vhxAUWG-o6UOiDwycQ7oPEACRGaRIHPlWyK1Svdz686iTenVQvDg-kc6syP-xuqR0C6-0Zutp8FO2jg08vssg1yWCUq2sKa8rsNcTxk1Kp5r4FVypXzq39ckrUdvG7fo1CRB34qw1OYQK7ILUDS_rBUQMRKbTIjUIX62qcn7MyUwiQfvPHr-9H-tw" alt="Voyager Backpack" />
+                    <div class="summary-item-info">
+                        <span class="name">Voyager Backpack</span>
+                        Qty 2 · $285.00
+                    </div>
+                </div>
+
+                <div class="summary-rows" style="margin-top:20px; padding-top:16px; border-top:1px solid #262a37;">
+                    <div class="row"><span>Subtotal</span><span>$1,020.00</span></div>
+                    <div class="row"><span>Shipping</span><span>Free</span></div>
+                    <div class="row"><span>Tax</span><span>$0.00</span></div>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span>$1,020.00</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer-dark">
+    <div class="footer-container">
+        <div>
+            <h2>Shopina</h2>
+            <p>Curated luminous luxury for the modern aesthetic.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Company</h4>
+            <a href="#" class="a">About Us</a>
+            <a href="#" class="a">Sustainability</a>
+        </div>
+        <div class="footer-links">
+            <h4>Support</h4>
+            <a href="#" class="a">Shipping Policy</a>
+            <a href="#" class="a">Returns</a>
+        </div>
+        <div class="footer-links">
+            <h4>Legal</h4>
+            <a href="#" class="a">Privacy</a>
+            <a href="#" class="a">Terms of Service</a>
+        </div>
+    </div>
+    <div class="footer-bottom-dark">© 2026 Shopina Luminous Luxury. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
