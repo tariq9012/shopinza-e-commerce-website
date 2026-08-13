@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopina - Shopping Cart</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="dark.css" />
+</head>
+<body>
+
+<nav class="navbar-dark">
+    <div class="navbar-container">
+        <a href="index.html" class="logo">Shopina</a>
+        <div class="link-list">
+            <a href="shop.html" class="a">Shop</a>
+            <a href="#" class="a">Collections</a>
+            <a href="#" class="a">New Arrivals</a>
+            <a href="#" class="a">Sale</a>
+        </div>
+        <div class="nav-icons">
+            <button class="icon-btn"><span class="material-symbols-outlined">shopping_cart</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">account_circle</span></button>
+        </div>
+    </div>
+</nav>
+
+<main class="dark-main">
+
+    <div class="dark-page-header">
+        <h1>Shopping Cart</h1>
+        <p>Review your items before proceeding to checkout.</p>
+    </div>
+
+    <div class="cart-layout">
+
+        <div class="cart-items">
+
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQm9IR9IJfW-tp62yJkjHFw0blY7SkBwFNs1XSEexInNFaqZc86OsLANc1IKkZH_xCB-L5dCKoFJQGhfDBH46JCYkOluBiNo9bAzPWXJml5RpyFmm_N7y8gh-nqFLjsbTdKMEmtuQBwDHx0ufmwqbLoCWlVOw_46g3fSSvQootnn9QO_SWC_vYdoo7rWz97FGHb9hpN1i9VFAnT9-XwtZfA_SumC98KspGeM8_S2CzoH5bGwtKJmz70Q" alt="Obsidian Chronograph" />
+                </div>
+                <div class="cart-item-details">
+                    <div class="cart-item-top">
+                        <div>
+                            <h3>Obsidian Chronograph</h3>
+                            <p>Midnight Blue / Standard</p>
+                        </div>
+                        <span class="cart-item-price">$450.00</span>
+                    </div>
+                    <div class="cart-item-bottom">
+                        <div class="qty-control-dark">
+                            <button><span class="material-symbols-outlined">remove</span></button>
+                            <span>1</span>
+                            <button><span class="material-symbols-outlined">add</span></button>
+                        </div>
+                        <button class="remove-btn"><span class="material-symbols-outlined">delete</span> Remove</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_xgCstgdb4FAKscow4wEpDozB8ISwRmlOWqNHXwy9bRIYVA-CLNNMGlBMl0k23vhxAUWG-o6UOiDwycQ7oPEACRGaRIHPlWyK1Svdz686iTenVQvDg-kc6syP-xuqR0C6-0Zutp8FO2jg08vssg1yWCUq2sKa8rsNcTxk1Kp5r4FVypXzq39ckrUdvG7fo1CRB34qw1OYQK7ILUDS_rBUQMRKbTIjUIX62qcn7MyUwiQfvPHr-9H-tw" alt="Voyager Backpack" />
+                </div>
+                <div class="cart-item-details">
+                    <div class="cart-item-top">
+                        <div>
+                            <h3>Voyager Backpack</h3>
+                            <p>Deep Slate</p>
+                        </div>
+                        <span class="cart-item-price">$285.00</span>
+                    </div>
+                    <div class="cart-item-bottom">
+                        <div class="qty-control-dark">
+                            <button><span class="material-symbols-outlined">remove</span></button>
+                            <span>2</span>
+                            <button><span class="material-symbols-outlined">add</span></button>
+                        </div>
+                        <button class="remove-btn"><span class="material-symbols-outlined">delete</span> Remove</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div class="summary-rows">
+                <div class="row"><span>Subtotal (3 items)</span><span>$1,020.00</span></div>
+                <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
+                <div class="row"><span>Tax</span><span>$0.00</span></div>
+            </div>
+
+            <div class="promo-row">
+                <label for="promo">Promo Code</label>
+                <div class="promo-input-group">
+                    <input id="promo" type="text" placeholder="Enter code" />
+                    <button>Apply</button>
+                </div>
+            </div>
+
+            <div class="summary-total">
+                <span>Total</span>
+                <span>$1,020.00</span>
+            </div>
+
+            <a href="checkout.html" class="a">
+                <button class="btn-checkout">Proceed to Checkout <span class="material-symbols-outlined">arrow_forward</span></button>
+            </a>
+            <div class="secure-checkout-note"><span class="material-symbols-outlined" style="font-size:16px">lock</span> Secure Checkout</div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer-dark">
+    <div class="footer-container">
+        <div>
+            <h2>Shopina</h2>
+            <p>Curated luminous luxury for the modern aesthetic.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Company</h4>
+            <a href="#" class="a">About Us</a>
+            <a href="#" class="a">Sustainability</a>
+        </div>
+        <div class="footer-links">
+            <h4>Support</h4>
+            <a href="#" class="a">Shipping Policy</a>
+            <a href="#" class="a">Returns</a>
+        </div>
+        <div class="footer-links">
+            <h4>Legal</h4>
+            <a href="#" class="a">Privacy</a>
+            <a href="#" class="a">Terms of Service</a>
+        </div>
+    </div>
+    <div class="footer-bottom-dark">© 2026 Shopina Luminous Luxury. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
