@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza - Contact Us</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- navbar (same as home) -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <a href="index.html" class="logo">Shopinza</a>
+        <div class="link-list">
+            <ul>
+                <li><a href="index.html" class="a">Home</a></li>
+                <li><a href="shop.html" class="a">Shop</a></li>
+                <li><a href="categories.html" class="a">Categories</a></li>
+                <li><a href="about.html" class="a">About</a></li>
+                <li><a href="contact.html" class="a active">Contact</a></li>
+            </ul>
+        </div>
+        <div class="nav-icons">
+            <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">person</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">shopping_cart</span></button>
+            <button class="icon-btn menu-toggle"><span class="material-symbols-outlined">menu</span></button>
+        </div>
+    </div>
+</nav>
+
+<main class="page-main">
+
+    <section class="contact-hero">
+        <h1>Get in Touch</h1>
+        <p>Questions about an order, a product, or just want to say hi? Our team is here to help.</p>
+    </section>
+
+    <section class="contact-layout">
+
+        <!-- contact info -->
+        <div class="contact-info">
+            <div class="contact-info-card">
+                <div class="contact-info-icon"><span class="material-symbols-outlined">location_on</span></div>
+                <div>
+                    <h4>Visit Us</h4>
+                    <p>Blue Area, Jinnah Avenue<br />Islamabad, Pakistan</p>
+                </div>
+            </div>
+
+            <div class="contact-info-card">
+                <div class="contact-info-icon"><span class="material-symbols-outlined">mail</span></div>
+                <div>
+                    <h4>Email Us</h4>
+                    <p>support@shopinza.com<br />partnerships@shopinza.com</p>
+                </div>
+            </div>
+
+            <div class="contact-info-card">
+                <div class="contact-info-icon"><span class="material-symbols-outlined">call</span></div>
+                <div>
+                    <h4>Call Us</h4>
+                    <p>+92 300 1234567<br />Mon - Sat, 10am - 7pm</p>
+                </div>
+            </div>
+
+            <div class="contact-info-card">
+                <div class="contact-info-icon"><span class="material-symbols-outlined">chat</span></div>
+                <div>
+                    <h4>Follow Us</h4>
+                    <div class="contact-social">
+                        <a href="#" class="social-icons" style="display:inline-flex"><span class="material-symbols-outlined" style="width:40px;height:40px;border-radius:50%;background:#eaedff;color:#070235;display:flex;align-items:center;justify-content:center;">photo_camera</span></a>
+                        <a href="#" style="display:inline-flex"><span class="material-symbols-outlined" style="width:40px;height:40px;border-radius:50%;background:#eaedff;color:#070235;display:flex;align-items:center;justify-content:center;">flutter_dash</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- contact form -->
+        <div class="contact-form-panel">
+            <h2>Send Us a Message</h2>
+            <form onsubmit="event.preventDefault(); alert('Thanks! Your message has been noted (demo form, not yet connected to a backend).');">
+                <div class="contact-form-row">
+                    <div class="contact-field">
+                        <label for="c-name">Full Name</label>
+                        <input id="c-name" type="text" placeholder="Jane Doe" required />
+                    </div>
+                    <div class="contact-field">
+                        <label for="c-email">Email Address</label>
+                        <input id="c-email" type="email" placeholder="name@example.com" required />
+                    </div>
+                </div>
+
+                <div class="contact-field">
+                    <label for="c-subject">Subject</label>
+                    <select id="c-subject">
+                        <option>Order Support</option>
+                        <option>Product Question</option>
+                        <option>Returns &amp; Refunds</option>
+                        <option>Partnership</option>
+                        <option>Something Else</option>
+                    </select>
+                </div>
+
+                <div class="contact-field">
+                    <label for="c-message">Message</label>
+                    <textarea id="c-message" placeholder="How can we help?" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">Send Message</button>
+            </form>
+        </div>
+
+    </section>
+
+    <!-- map -->
+    <section class="contact-map">
+        <iframe src="https://www.google.com/maps?q=Blue%20Area%2C%20Islamabad%2C%20Pakistan&output=embed" loading="lazy" title="Shopinza location map"></iframe>
+    </section>
+
+    <!-- faq -->
+    <section class="faq-section">
+        <div class="about-section-heading" style="margin-bottom: 24px;">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <details class="faq-item" open>
+            <summary>How long does shipping take? <span class="material-symbols-outlined">expand_more</span></summary>
+            <p>Standard shipping takes 3-5 business days. Express shipping arrives in 1-2 business days for an additional fee.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>What is your return policy? <span class="material-symbols-outlined">expand_more</span></summary>
+            <p>We accept returns within 30 days of purchase for a full refund, as long as items are unused and in original packaging.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Do you ship internationally? <span class="material-symbols-outlined">expand_more</span></summary>
+            <p>Yes, we currently ship to over 30 countries. Shipping costs and delivery times are calculated at checkout.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How can I track my order? <span class="material-symbols-outlined">expand_more</span></summary>
+            <p>Once your order ships, you'll receive a tracking link by email. You can also check order status from your account page.</p>
+        </details>
+    </section>
+
+</main>
+
+<!-- footer (same as home) -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <h2>Shopinza</h2>
+            <p>Effortless luxury curated for the modern lifestyle. Redefining your everyday aesthetic.</p>
+        </div>
+        <div class="footer-links">
+            <h3>Customer Care</h3>
+            <ul>
+                <li><a href="#" class="a">Shipping Info</a></li>
+                <li><a href="#" class="a">Returns</a></li>
+                <li><a href="#" class="a">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="#" class="a">Privacy Policy</a></li>
+                <li><a href="#" class="a">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><span class="material-symbols-outlined">photo_camera</span></a>
+                <a href="#"><span class="material-symbols-outlined">flutter_dash</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Shopinza. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
