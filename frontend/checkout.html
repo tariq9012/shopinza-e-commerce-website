@@ -18,6 +18,7 @@
     <div class="navbar-container">
         <a href="index.html" class="logo">Shopina</a>
         <div class="secure-note"><span class="material-symbols-outlined" style="font-size:18px">lock</span> Secure Checkout</div>
+        <button class="icon-btn js-cart-icon" style="margin-left:16px;"><span class="material-symbols-outlined">shopping_cart</span><span class="cart-badge" id="cart-badge">0</span></button>
     </div>
 </header>
 
@@ -49,29 +50,29 @@
 
             <section class="form-panel">
                 <h2><span class="material-symbols-outlined">local_shipping</span> Shipping Address</h2>
-                <form>
+                <form id="shipping-address-form">
                     <div class="form-row">
                         <div class="field">
                             <label for="first-name">First Name</label>
-                            <input id="first-name" type="text" placeholder="Jane" />
+                            <input id="first-name" type="text" placeholder="Jane" required />
                         </div>
                         <div class="field">
                             <label for="last-name">Last Name</label>
-                            <input id="last-name" type="text" placeholder="Doe" />
+                            <input id="last-name" type="text" placeholder="Doe" required />
                         </div>
                     </div>
                     <div class="field">
                         <label for="address">Address</label>
-                        <input id="address" type="text" placeholder="123 Luxury Ave, Suite 400" />
+                        <input id="address" type="text" placeholder="123 Luxury Ave, Suite 400" required />
                     </div>
                     <div class="form-row three">
                         <div class="field">
                             <label for="city">City</label>
-                            <input id="city" type="text" placeholder="New York" />
+                            <input id="city" type="text" placeholder="New York" required />
                         </div>
                         <div class="field">
                             <label for="state">State/Province</label>
-                            <select id="state">
+                            <select id="state" required>
                                 <option disabled selected value="">Select State</option>
                                 <option value="NY">New York</option>
                                 <option value="CA">California</option>
@@ -80,7 +81,7 @@
                         </div>
                         <div class="field">
                             <label for="zip">ZIP / Postal Code</label>
-                            <input id="zip" type="text" placeholder="10001" />
+                            <input id="zip" type="text" placeholder="10001" required />
                         </div>
                     </div>
                     <div class="field">
@@ -118,7 +119,7 @@
 
             <div class="checkout-actions">
                 <a href="cart.html" class="link-back"><span class="material-symbols-outlined" style="font-size:18px">arrow_back</span> Return to Cart</a>
-                <button class="btn-continue">Continue to Payment <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
+                <button class="btn-continue" id="continue-payment-btn" type="button">Continue to Payment <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
             </div>
 
         </div>
@@ -127,31 +128,19 @@
             <div class="order-summary">
                 <h2>Order Summary</h2>
 
-                <div class="summary-item">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQm9IR9IJfW-tp62yJkjHFw0blY7SkBwFNs1XSEexInNFaqZc86OsLANc1IKkZH_xCB-L5dCKoFJQGhfDBH46JCYkOluBiNo9bAzPWXJml5RpyFmm_N7y8gh-nqFLjsbTdKMEmtuQBwDHx0ufmwqbLoCWlVOw_46g3fSSvQootnn9QO_SWC_vYdoo7rWz97FGHb9hpN1i9VFAnT9-XwtZfA_SumC98KspGeM8_S2CzoH5bGwtKJmz70Q" alt="Obsidian Chronograph" />
-                    <div class="summary-item-info">
-                        <span class="name">Obsidian Chronograph</span>
-                        Qty 1 · $450.00
-                    </div>
-                </div>
-
-                <div class="summary-item">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_xgCstgdb4FAKscow4wEpDozB8ISwRmlOWqNHXwy9bRIYVA-CLNNMGlBMl0k23vhxAUWG-o6UOiDwycQ7oPEACRGaRIHPlWyK1Svdz686iTenVQvDg-kc6syP-xuqR0C6-0Zutp8FO2jg08vssg1yWCUq2sKa8rsNcTxk1Kp5r4FVypXzq39ckrUdvG7fo1CRB34qw1OYQK7ILUDS_rBUQMRKbTIjUIX62qcn7MyUwiQfvPHr-9H-tw" alt="Voyager Backpack" />
-                    <div class="summary-item-info">
-                        <span class="name">Voyager Backpack</span>
-                        Qty 2 · $285.00
-                    </div>
+                <div id="checkout-items-container">
+                    <!-- items rendered dynamically by js/checkout.js based on localStorage cart -->
                 </div>
 
                 <div class="summary-rows" style="margin-top:20px; padding-top:16px; border-top:1px solid #262a37;">
-                    <div class="row"><span>Subtotal</span><span>$1,020.00</span></div>
-                    <div class="row"><span>Shipping</span><span>Free</span></div>
+                    <div class="row"><span>Subtotal</span><span id="checkout-subtotal">$0.00</span></div>
+                    <div class="row"><span>Shipping</span><span id="checkout-shipping">Free</span></div>
                     <div class="row"><span>Tax</span><span>$0.00</span></div>
                 </div>
 
                 <div class="summary-total">
                     <span>Total</span>
-                    <span>$1,020.00</span>
+                    <span id="checkout-total">$0.00</span>
                 </div>
             </div>
         </div>
@@ -184,5 +173,8 @@
     <div class="footer-bottom-dark">© 2026 Shopina Luminous Luxury. All rights reserved.</div>
 </footer>
 
+<script src="js/config.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/checkout.js"></script>
 </body>
 </html>

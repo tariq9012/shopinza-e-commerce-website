@@ -22,7 +22,7 @@
     <div class="navbar-container">
         <a href="index.html" class="logo">Shopinza</a>
 
-        <div class="link-list">
+        <div class="link-list" id="nav-link-list">
             <ul>
                 <li><a href="index.html" class="a active">Home</a></li>
                 <li><a href="shop.html" class="a">Shop</a></li>
@@ -35,8 +35,8 @@
         <div class="nav-icons">
             <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
             <button class="icon-btn"><span class="material-symbols-outlined">person</span></button>
-            <button class="icon-btn"><span class="material-symbols-outlined">shopping_cart</span></button>
-            <button class="icon-btn menu-toggle"><span class="material-symbols-outlined">menu</span></button>
+            <button class="icon-btn js-cart-icon"><span class="material-symbols-outlined">shopping_cart</span><span class="cart-badge" id="cart-badge">0</span></button>
+            <button class="icon-btn menu-toggle" id="menu-toggle-btn"><span class="material-symbols-outlined">menu</span></button>
         </div>
     </div>
 </nav>
@@ -97,67 +97,16 @@
             <h2>Popular Products</h2>
             <p>Highly rated picks from our community</p>
         </div>
-        <a href="#" class="view-all-link">View All <span class="material-symbols-outlined">arrow_forward</span></a>
+        <a href="shop.html" class="view-all-link">View All <span class="material-symbols-outlined">arrow_forward</span></a>
     </div>
 
-    <div class="products-grid">
-
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJQHg4UBLnSHXfiEFFM7XL4AFxukExjfxTGuSilxjDt6zm8z5YUErgxtubn-aBgjFkoSBWgK-ZvE_S0lTJYUrhCXPp0I8B3XZKGHD4acAHfTe-27m3Ir56_36Ys22m6RXGaVvO68GyDbtSv04UsuOzT_20VOsnYvWnboDTH46u3rFrXGoS1TEYmQrmki9vdXas5tw4WpqcgY4zQlv8roCzp8T8VEzgpiCkNDXahgcxJT6ZEXu78jRjGg" alt="Minimalist Ceramic Vase" />
-                <button class="wishlist-btn"><span class="material-symbols-outlined">favorite</span></button>
-            </div>
-            <div class="product-info">
-                <div class="rating">★★★★<span class="half">★</span> <span class="rating-count">(4.8)</span></div>
-                <h3>Minimalist Ceramic Vase</h3>
-                <p class="price">$120.00</p>
-                <button class="btn-outline"><span class="material-symbols-outlined">add_shopping_cart</span> Quick Add</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpOV1_pjdzFnzUtjruaiL_kpavNE48-Kr6xpc3bqfy7JB7RRqC0X6chkZIyPBWrxAFQA4tSsgQI_n_Hk3ABF56xlPCDaklekPlx23Mm4n4-c9yqZubbHXxUVmuw3xYFKybJNnA_fupnL7uCHzSUTJN-AxFSxSoXPaBGtJPdLAEZPRxU9QjSBv5EkfBvj6x8C5ou4mdTSLL2vsTN_SP3t9mTW_hN0BjhBPRuxuiZN8pL2UlxSZHMqkhQg" alt="Classic Leather Wallet" />
-                <button class="wishlist-btn"><span class="material-symbols-outlined">favorite</span></button>
-            </div>
-            <div class="product-info">
-                <div class="rating">★★★★★ <span class="rating-count">(5.0)</span></div>
-                <h3>Classic Leather Wallet</h3>
-                <p class="price">$85.00</p>
-                <button class="btn-outline"><span class="material-symbols-outlined">add_shopping_cart</span> Quick Add</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDahFvJkLJCipg_K0BltQqGm3vpv-epkihKjvrAEMQaQq7pj3pmPyb6ZgcyNCznm9laTvek67xS7Rc_JYk-Hr3I0JE3hvS9HKOqX2j_4V1Z_5HIrzoXezfRdkaeK0LlgCTKv7BZfkTM2VIT1tQ_OwmTQXTquZMy9-xdBOYVXzjeVZ7cCdpMBYGD5qkD1ibLvhRjtQlPFQ1btVrbKzKXjwakIg0N6ARz332CyCeaB6feUqq-bENfriPCaw" alt="Hydrating Glow Serum" />
-                <button class="wishlist-btn"><span class="material-symbols-outlined">favorite</span></button>
-            </div>
-            <div class="product-info">
-                <div class="rating">★★★★ <span class="rating-count">(4.2)</span></div>
-                <h3>Hydrating Glow Serum</h3>
-                <p class="price">$65.00</p>
-                <button class="btn-outline"><span class="material-symbols-outlined">add_shopping_cart</span> Quick Add</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <div class="product-image">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3LYtH4xmkcikXropxIM4XDWBeLZQ9H6b94ucLXIYdsVlNhqOSivbuhgxCQ6ILBWit1wEHul1geA0IMB0E_L1B3pDRPTCsYQPLYCDnDHfM6FvEIZ5LfeSZzafK1z0Z3YKupeFBjbvvMEzH-vfRqzh6JHeN3oNL3PlA9vQDGSyqu8kjpg9ylMwikUyXfSddOIBVERojh5fjLAQJV9r0tlA9_EwSDHGtt6DmuVlRplNWe66FtVMXraPjQ" alt="Aura Wireless Headphones" />
-                <button class="wishlist-btn"><span class="material-symbols-outlined">favorite</span></button>
-            </div>
-            <div class="product-info">
-                <div class="rating">★★★★<span class="half">★</span> <span class="rating-count">(4.7)</span></div>
-                <h3>Aura Wireless Headphones</h3>
-                <p class="price">$299.00</p>
-                <button class="btn-outline"><span class="material-symbols-outlined">add_shopping_cart</span> Quick Add</button>
-            </div>
-        </div>
-
+    <div class="products-grid" id="home-products-grid">
+        <div style="grid-column: 1 / -1; text-align:center; padding: 32px; color:#47464f;">Loading products…</div>
     </div>
+
 
     <div class="view-all-mobile">
-        <button class="btn-outline-lg">View All Products</button>
+        <a href="shop.html" class="a"><button class="btn-outline-lg">View All Products</button></a>
     </div>
 </section>
 
@@ -167,11 +116,11 @@
         <div class="newsletter-icon"><span class="material-symbols-outlined">mail</span></div>
         <h2>Stay in the Loop</h2>
         <p>Subscribe to our newsletter for exclusive offers, early access to new collections, and styling tips.</p>
-        <form class="newsletter-form">
-            <input type="email" placeholder="Enter your email address" required />
+        <form class="newsletter-form" id="newsletter-form">
+            <input type="email" id="newsletter-email" placeholder="Enter your email address" required />
             <button type="submit" class="btn-primary">Subscribe</button>
         </form>
-        <p class="newsletter-note">By subscribing, you agree to our Terms &amp; Privacy Policy.</p>
+        <p class="newsletter-note" id="newsletter-note">By subscribing, you agree to our Terms &amp; Privacy Policy.</p>
     </div>
 </section>
 
@@ -214,5 +163,11 @@
     </div>
 </footer>
 
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/products.js"></script>
+<script src="js/products-home.js"></script>
+<script src="js/newsletter.js"></script>
 </body>
 </html>
