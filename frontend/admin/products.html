@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza Admin - Products</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+    <!-- sidebar injected by admin-guard.js -->
+
+    <main class="admin-main">
+        <div class="admin-header">
+            <div>
+                <h1>Products</h1>
+                <p>Add, edit, or remove products from the catalog.</p>
+            </div>
+            <button class="btn-admin-primary" id="add-product-btn">
+                <span class="material-symbols-outlined">add</span> Add Product
+            </button>
+        </div>
+
+        <div class="admin-panel">
+            <div class="admin-table-wrap" id="products-table-wrap">
+                <p class="loading-note">Loading products…</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add / Edit product modal -->
+<div class="modal-overlay hidden" id="product-modal-overlay">
+    <div class="modal-box">
+        <h2 id="product-modal-title">Add Product</h2>
+        <form id="product-form">
+            <input type="hidden" id="product-id" />
+
+            <div class="admin-field">
+                <label for="product-name">Product Name</label>
+                <input id="product-name" type="text" required />
+            </div>
+
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="product-category">Category</label>
+                    <select id="product-category" required>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Home Decor">Home Decor</option>
+                        <option value="Apparel">Apparel</option>
+                    </select>
+                </div>
+                <div class="admin-field">
+                    <label for="product-stock">Stock</label>
+                    <input id="product-stock" type="number" min="0" value="20" required />
+                </div>
+            </div>
+
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="product-price">Price ($)</label>
+                    <input id="product-price" type="number" min="0" step="0.01" required />
+                </div>
+                <div class="admin-field">
+                    <label for="product-old-price">Old Price ($) — optional, for sale badge</label>
+                    <input id="product-old-price" type="number" min="0" step="0.01" />
+                </div>
+            </div>
+
+            <div class="admin-field">
+                <label for="product-image">Main Image URL</label>
+                <input id="product-image" type="url" required placeholder="https://..." />
+            </div>
+
+            <div class="admin-field">
+                <label for="product-description">Description</label>
+                <textarea id="product-description" placeholder="Short product description..."></textarea>
+            </div>
+
+            <p id="product-form-feedback" class="hidden" style="color:#f87171; font-size:13px; margin-bottom:12px;"></p>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-admin-outline" id="product-modal-cancel">Cancel</button>
+                <button type="submit" class="btn-admin-primary" id="product-form-submit">Save Product</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="js/admin-guard.js"></script>
+<script src="js/products-admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza - Explore Products</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- navbar (same as home) -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <a href="index.html" class="logo">Shopinza</a>
+        <div class="link-list" id="nav-link-list">
+            <ul>
+                <li><a href="index.html" class="a">Home</a></li>
+                <li><a href="shop.html" class="a active">Shop</a></li>
+                <li><a href="categories.html" class="a">Categories</a></li>
+                <li><a href="about.html" class="a">About</a></li>
+                <li><a href="contact.html" class="a">Contact</a></li>
+            </ul>
+        </div>
+        <div class="nav-icons">
+            <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">person</span></button>
+            <button class="icon-btn js-cart-icon"><span class="material-symbols-outlined">shopping_cart</span><span class="cart-badge" id="cart-badge">0</span></button>
+            <button class="icon-btn menu-toggle" id="menu-toggle-btn"><span class="material-symbols-outlined">menu</span></button>
+        </div>
+    </div>
+</nav>
+
+<main class="page-main">
+
+    <section>
+        <div class="breadcrumb">
+            <a href="index.html" class="a">Home</a>
+            <span class="material-symbols-outlined" style="font-size:16px">chevron_right</span>
+            <span class="current">Shop</span>
+        </div>
+        <h1 class="page-title">Explore Products</h1>
+    </section>
+
+    <div class="shop-layout">
+
+        <!-- filters sidebar -->
+        <aside class="filters-sidebar">
+            <div class="filter-block">
+                <h3>Categories</h3>
+                <ul>
+                    <li><label class="js-filter-cat" data-category="Electronics"><input type="checkbox" /> Electronics</label></li>
+                    <li><label class="checked js-filter-cat" data-category="Accessories"><input type="checkbox" checked /> Accessories</label></li>
+                    <li><label class="js-filter-cat" data-category="Home Decor"><input type="checkbox" /> Home Decor</label></li>
+                    <li><label class="js-filter-cat" data-category="Apparel"><input type="checkbox" /> Apparel</label></li>
+                </ul>
+            </div>
+
+            <div class="filter-block price-range">
+                <h3>Price</h3>
+                <input type="range" min="0" max="1000" value="1000" id="price-range" class="js-price-range" />
+                <div class="price-labels">
+                    <span>$0</span>
+                    <span id="price-range-value">$1000+</span>
+                </div>
+            </div>
+
+            <div class="filter-block">
+                <h3>Color</h3>
+                <div class="color-swatches">
+                    <button class="color-swatch" style="background:#1A1A1A" aria-label="Black"></button>
+                    <button class="color-swatch" style="background:#F5F5F5; border:1px solid #c8c5d0" aria-label="White"></button>
+                    <button class="color-swatch" style="background:#8B5A2B" aria-label="Brown"></button>
+                    <button class="color-swatch" style="background:#4A5D23" aria-label="Olive"></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- product listing -->
+        <div class="shop-content">
+
+            <div class="shop-toolbar">
+                <span class="results-count" id="results-count">Showing 1-12 of 36 results</span>
+                <div class="toolbar-actions">
+                    <div class="sort-group">
+                        <label for="sort">Sort by:</label>
+                        <select id="sort" class="js-sort">
+                            <option>Latest</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Popular</option>
+                        </select>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="active js-view-grid" aria-label="Grid View"><span class="material-symbols-outlined">grid_view</span></button>
+                        <button class="js-view-list" aria-label="List View"><span class="material-symbols-outlined">view_list</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shop-grid" id="shop-grid">
+                <div style="grid-column: 1 / -1; text-align:center; padding: 32px; color:#47464f;">Loading products…</div>
+            </div>
+
+
+            <div class="pagination" id="pagination">
+                <button class="js-page-prev" disabled><span class="material-symbols-outlined">chevron_left</span></button>
+                <button class="active js-page" data-page="1">1</button>
+                <button class="js-page" data-page="2">2</button>
+                <button class="js-page" data-page="3">3</button>
+                <span class="dots">...</span>
+                <button class="js-page-next"><span class="material-symbols-outlined">chevron_right</span></button>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<!-- footer (same as home) -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <h2>Shopinza</h2>
+            <p>Effortless luxury curated for the modern lifestyle. Redefining your everyday aesthetic.</p>
+        </div>
+        <div class="footer-links">
+            <h3>Customer Care</h3>
+            <ul>
+                <li><a href="#" class="a">Shipping Info</a></li>
+                <li><a href="#" class="a">Returns</a></li>
+                <li><a href="#" class="a">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="#" class="a">Privacy Policy</a></li>
+                <li><a href="#" class="a">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><span class="material-symbols-outlined">photo_camera</span></a>
+                <a href="#"><span class="material-symbols-outlined">flutter_dash</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Shopinza. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/products.js"></script>
+<script src="js/shop.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza - Shopping Cart</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="dark.css" />
+</head>
+<body>
+
+<nav class="navbar-dark">
+    <div class="navbar-container">
+        <a href="index.html" class="logo">Shopinza</a>
+        <div class="link-list">
+            <a href="shop.html" class="a">Shop</a>
+            <a href="categories.html" class="a">Collections</a>
+            <a href="shop.html?sort=latest" class="a">New Arrivals</a>
+            <a href="shop.html?sale=true" class="a">Sale</a>
+        </div>
+        <div class="nav-icons">
+            <button class="icon-btn js-cart-icon"><span class="material-symbols-outlined">shopping_cart</span><span class="cart-badge" id="cart-badge">0</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">account_circle</span></button>
+        </div>
+    </div>
+</nav>
+
+<main class="dark-main">
+
+    <div class="dark-page-header">
+        <h1>Shopping Cart</h1>
+        <p>Review your items before proceeding to checkout.</p>
+    </div>
+
+    <div class="cart-layout">
+
+        <div class="cart-items" id="cart-items-container">
+            <!-- cart items are rendered here by js/cart-page.js based on localStorage -->
+        </div>
+
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div class="summary-rows">
+                <div class="row"><span id="summary-item-count">Subtotal (0 items)</span><span id="summary-subtotal">$0.00</span></div>
+                <div class="row"><span>Shipping</span><span>Calculated at checkout</span></div>
+                <div class="row"><span>Tax</span><span>$0.00</span></div>
+            </div>
+
+            <div class="promo-row">
+                <label for="promo">Promo Code</label>
+                <div class="promo-input-group">
+                    <input id="promo" type="text" placeholder="Enter code" />
+                    <button id="promo-apply-btn">Apply</button>
+                </div>
+            </div>
+
+            <div class="summary-total">
+                <span>Total</span>
+                <span id="summary-total">$0.00</span>
+            </div>
+
+            <a href="checkout.html" class="a">
+                <button class="btn-checkout" id="checkout-btn">Proceed to Checkout <span class="material-symbols-outlined">arrow_forward</span></button>
+            </a>
+            <div class="secure-checkout-note"><span class="material-symbols-outlined" style="font-size:16px">lock</span> Secure Checkout</div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer-dark">
+    <div class="footer-container">
+        <div>
+            <h2>Shopinza</h2>
+            <p>Curated luminous luxury for the modern aesthetic.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Company</h4>
+            <a href="#" class="a">About Us</a>
+            <a href="#" class="a">Sustainability</a>
+        </div>
+        <div class="footer-links">
+            <h4>Support</h4>
+            <a href="#" class="a">Shipping Policy</a>
+            <a href="#" class="a">Returns</a>
+        </div>
+        <div class="footer-links">
+            <h4>Legal</h4>
+            <a href="#" class="a">Privacy</a>
+            <a href="#" class="a">Terms of Service</a>
+        </div>
+    </div>
+    <div class="footer-bottom-dark">© 2026 Shopinza Luminous Luxury. All rights reserved.</div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/cart-page.js"></script>
+</body>
+</html>

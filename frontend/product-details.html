@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shopina - Signature Noise-Cancelling Headphones</title>
+<title>Shopinza - Signature Noise-Cancelling Headphones</title>
 
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
@@ -17,21 +17,21 @@
 <!-- navbar (same as home) -->
 <nav class="navbar">
     <div class="navbar-container">
-        <a href="index.html" class="logo">Shopina</a>
-        <div class="link-list">
+        <a href="index.html" class="logo">Shopinza</a>
+        <div class="link-list" id="nav-link-list">
             <ul>
                 <li><a href="index.html" class="a">Home</a></li>
                 <li><a href="shop.html" class="a active">Shop</a></li>
                 <li><a href="categories.html" class="a">Categories</a></li>
-                <li><a href="About.html" class="a">About</a></li>
+                <li><a href="about.html" class="a">About</a></li>
                 <li><a href="contact.html" class="a">Contact</a></li>
             </ul>
         </div>
         <div class="nav-icons">
             <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
             <button class="icon-btn"><span class="material-symbols-outlined">person</span></button>
-            <button class="icon-btn"><span class="material-symbols-outlined">shopping_cart</span></button>
-            <button class="icon-btn menu-toggle"><span class="material-symbols-outlined">menu</span></button>
+            <button class="icon-btn js-cart-icon"><span class="material-symbols-outlined">shopping_cart</span><span class="cart-badge" id="cart-badge">0</span></button>
+            <button class="icon-btn menu-toggle" id="menu-toggle-btn"><span class="material-symbols-outlined">menu</span></button>
         </div>
     </div>
 </nav>
@@ -43,55 +43,49 @@
 
         <div class="pd-gallery">
             <div class="pd-main-image">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUIA14DFh4_nBFYeraXvBPlaNJgVBhkOEFULNKqEmcD__Ty56_lYT_UQgmRh9GMafR0ciYHoj936qT7guf5xq3ysFy4nIZX0kUHdDB8LrT_jQ69bUSkhxFs9SX5NdV-3zRntG45WnoutYGbMFYLFN0Dmz3Oepmgf-gJgqqRiq2VQSLcOvk5vfTUQfC5mlK3iyxJq_BO3ZdfOsN3wsmdWXA3R5aYTKfGPXeDKFsAd49-SaA1IhkowDtbg" alt="Signature Noise-Cancelling Headphones" />
-                <button class="pd-wishlist"><span class="material-symbols-outlined">favorite</span></button>
+                <img id="pd-main-image" src="" alt="" />
+                <button class="pd-wishlist js-wishlist"><span class="material-symbols-outlined">favorite</span></button>
             </div>
-            <div class="pd-thumbs">
-                <img class="active" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8GtFcTjkrloznTuy2uaX51cREavq298derIh4-U7udfWOuGEPdQApraTZqSvRtqZptWo00AyCgfOdxl4O5m98K7KulS8uWhZgqFmbCD9UV0Sz4TXHmu2t6meVltoBipTi98cxc9cdoeXwIuyVNLe20u7MEgnssHD5YDHm9GmIE-zJCQkUtMiwSdH-_UwRHGXxfpDse-o5MVanLn7IukiRQDsjiqrYegWtd2pp91_3o8r3IRv7oS-wZw" alt="Thumbnail 1" />
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcXDvZX6ksAWwLOJYbm3wYlRQwoeXsjndJcB60qTJi5DHq2wB3Xt6jhKZG24iie_Auk5TlbVo8wusUe9egR2ky6rCITCaG3-x48pgLGifVYYdrOgLE6EdAJOTAKcVDiOSvr_49DGyFkKLVEmU4NA2sMn1UKhFN9pr-tSMsv8wrn1a30M1OKw6tI-CwgEL0zgVqAsxdGOFHaU3qUwvdlZe_m_dXWXnBC3AEnBnyYJPOwEUVzhM0-nDf1w" alt="Thumbnail 2" />
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp-Mif69RZuAg1HdO5cUIl2O_on-SJ9aFp-M0uHSRbjjEsuJLL4kyemUMw0jmssKrKaynY5DjCiO5ZX8Lq2i9wjrtAeohePIGq1A8EgyFCGa4OxZrHRAZdDpF52mH9V5z3AeHKNX8_CMHC4V4uGFs7-M-KfdznZM2NUdLbIk-z8ko8mhDg1ThXqb8brH_dQJJWUebdkzg6q-5lgFvDCSeoP60zG5Ng6pfW5XYeO6t4TH-ynIkNA0OuOQ" alt="Thumbnail 3" />
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0WZqhz7vL9gO7uHCBcQrdQ06UAp3TPSa8fyZSrFm_r_1V_QvfxySMPYZ-wqf1hMGFaLDy1DFypNfiBAPs23l03iTDzKCWx8ZL1vD5hPjvSnCOM6KCleDxW2FVzZCjrLg2an1OPaLsUr1V6liY9rt2rxcM-P6ZagKjYaC9SHuXlb9UuQ-9Wr5RBqvlsFEFtIEUyhJwA2UbU9Heu5KJ750wRn3Bp1tXxGEd5NM7f468Z_pBOQ3poJtHug" alt="Thumbnail 4" />
+            <div class="pd-thumbs" id="pd-thumbs">
+                <!-- thumbnails injected dynamically by product.js -->
             </div>
         </div>
 
         <div class="pd-info">
-            <div class="pd-rating">
-                ★★★★<span class="half">★</span>
-                <span class="rating-count">4.8 (124 reviews)</span>
+            <div class="pd-rating" id="pd-rating">
+                <span class="rating-count">Loading…</span>
             </div>
 
-            <h1>Signature Noise-Cancelling Headphones</h1>
+            <h1 id="pd-title">Loading product…</h1>
 
             <div class="pd-price-row">
-                <span class="pd-price">$299.00</span>
-                <span class="pd-price-old">$349.00</span>
+                <span class="pd-price" id="pd-price">$0.00</span>
+                <span class="pd-price-old hidden" id="pd-price-old"></span>
             </div>
 
-            <p class="pd-description">Experience studio-quality sound with 40 hours of battery life and active noise cancellation. Designed for ultimate comfort and immersive listening.</p>
+            <p class="pd-description" id="pd-description"></p>
 
             <div class="pd-divider"></div>
 
-            <div class="pd-colors">
-                <h3>Color: <span>Midnight Black</span></h3>
-                <div class="pd-color-options">
-                    <button class="pd-color-swatch active" style="background:#111111" aria-label="Black"></button>
-                    <button class="pd-color-swatch" style="background:#E5E5E5" aria-label="Silver"></button>
-                    <button class="pd-color-swatch" style="background:#1B2A47" aria-label="Navy"></button>
+            <div class="pd-colors hidden" id="pd-colors-section">
+                <h3>Color: <span id="pd-color-label"></span></h3>
+                <div class="pd-color-options" id="pd-color-options">
+                    <!-- color swatches injected dynamically by product.js -->
                 </div>
             </div>
 
             <div class="pd-qty-row">
                 <div class="qty-control">
-                    <button><span class="material-symbols-outlined">remove</span></button>
-                    <span>1</span>
-                    <button><span class="material-symbols-outlined">add</span></button>
+                    <button class="js-qty-minus"><span class="material-symbols-outlined">remove</span></button>
+                    <span id="pd-qty">1</span>
+                    <button class="js-qty-plus"><span class="material-symbols-outlined">add</span></button>
                 </div>
-                <p class="stock-note">Only 4 left in stock</p>
+                <p class="stock-note" id="pd-stock-note"></p>
             </div>
 
-            <div class="pd-actions">
-                <button class="btn-add-cart"><span class="material-symbols-outlined">shopping_bag</span> Add to Cart</button>
-                <button class="btn-buy-now">Buy Now</button>
+            <div class="pd-actions" id="pd-actions" data-id="" data-name="" data-price="" data-image="">
+                <button class="btn-add-cart js-pd-add-cart"><span class="material-symbols-outlined">shopping_bag</span> Add to Cart</button>
+                <button class="btn-buy-now js-pd-buy-now">Buy Now</button>
             </div>
 
             <div class="pd-accordion">
@@ -110,24 +104,36 @@
     <!-- specs / features tabs -->
     <section class="pd-tabs-section">
         <div class="pd-tabs">
-            <button class="active">Specifications</button>
-            <button>Features</button>
-            <button>Reviews (124)</button>
+            <button class="active js-pd-tab" data-tab="specs">Specifications</button>
+            <button class="js-pd-tab" data-tab="features">Features</button>
+            <button class="js-pd-tab" data-tab="reviews">Reviews (<span id="pd-review-count">0</span>)</button>
         </div>
-        <div class="pd-tabs-content">
+        <div class="pd-tabs-content" id="pd-tab-specs">
             <div class="specs-list">
-                <h3 style="margin-bottom:24px; color:#070235; font-size:22px;">Technical Specs</h3>
-                <dl>
-                    <div class="spec-row"><dt>Driver Size</dt><dd>40mm Dynamic</dd></div>
-                    <div class="spec-row"><dt>Battery Life</dt><dd>Up to 40 hours (ANC on)</dd></div>
-                    <div class="spec-row"><dt>Bluetooth Version</dt><dd>5.2</dd></div>
-                    <div class="spec-row"><dt>Weight</dt><dd>250g</dd></div>
-                </dl>
+                <h3 style="margin-bottom:24px; color:#070235; font-size:22px;">Product Details</h3>
+                <p id="pd-specs-description" style="color:#47464f; line-height:1.7;"></p>
             </div>
             <div class="highlight-panel">
-                <span class="material-symbols-outlined">graphic_eq</span>
-                <h4 style="color:#131b2e; font-size:20px;">Adaptive Noise Control</h4>
-                <p style="color:#47464f;">Smartly adapts to your environment to block out distractions while letting important sounds in when needed.</p>
+                <span class="material-symbols-outlined">verified</span>
+                <h4 style="color:#131b2e; font-size:20px;">Quality Checked</h4>
+                <p style="color:#47464f;">Every item is inspected before it ships, and backed by our 30-day return policy.</p>
+            </div>
+        </div>
+        <div class="pd-tabs-content hidden" id="pd-tab-features">
+            <div class="specs-list">
+                <h3 style="margin-bottom:24px; color:#070235; font-size:22px;">Why You'll Love It</h3>
+                <p style="color:#47464f; line-height:1.7;">Carefully sourced and quality-checked before it ships to you — part of the curated Shopinza collection.</p>
+            </div>
+            <div class="highlight-panel">
+                <span class="material-symbols-outlined">local_shipping</span>
+                <h4 style="color:#131b2e; font-size:20px;">Free Shipping</h4>
+                <p style="color:#47464f;">Free standard shipping on all orders over $50, with 30-day easy returns.</p>
+            </div>
+        </div>
+        <div class="pd-tabs-content hidden" id="pd-tab-reviews">
+            <div class="specs-list" style="grid-column: 1 / -1;">
+                <h3 style="margin-bottom:24px; color:#070235; font-size:22px;">Customer Reviews</h3>
+                <p id="pd-reviews-summary" style="color:#47464f;"></p>
             </div>
         </div>
     </section>
@@ -178,7 +184,7 @@
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-brand">
-            <h2>Shopina</h2>
+            <h2>Shopinza</h2>
             <p>Curating effortless luxury for the modern lifestyle.</p>
         </div>
         <div class="footer-links">
@@ -207,9 +213,14 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>© 2026 Shopina. All rights reserved.</p>
+        <p>© 2026 Shopinza. All rights reserved.</p>
     </div>
 </footer>
 
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/products.js"></script>
+<script src="js/product.js"></script>
 </body>
 </html>

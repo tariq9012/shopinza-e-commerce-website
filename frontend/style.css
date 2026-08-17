@@ -1,3 +1,58 @@
+.hidden {
+    display: none !important;
+}
+
+.js-cart-icon {
+    position: relative;
+}
+
+.wishlist-btn.active-wishlist,
+.pd-wishlist.active-wishlist {
+    color: #ba1a1a;
+}
+
+.wishlist-btn.active-wishlist .material-symbols-outlined,
+.pd-wishlist.active-wishlist .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background-color: #ba1a1a;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+}
+
+.cart-badge.hidden {
+    display: none !important;
+}
+
+.link-list.mobile-open {
+    display: block;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background-color: #faf8ff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    padding: 16px 24px;
+    z-index: 60;
+}
+
+.link-list.mobile-open ul {
+    flex-direction: column;
+    gap: 16px;
+}
+
 /* ==============================
    Shopina - shared stylesheet
    Used by: index.html, shop.html, product-details.html
@@ -845,6 +900,28 @@ button {
 
 .add-cart-round:hover {
     background-color: #14104f;
+}
+
+.shop-grid-list {
+    grid-template-columns: 1fr !important;
+}
+
+.shop-grid-list .shop-card {
+    flex-direction: row;
+}
+
+.shop-grid-list .shop-card-image {
+    width: 220px;
+    flex-shrink: 0;
+    aspect-ratio: auto;
+}
+
+.shop-grid-list .shop-card-info {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .pagination {
