@@ -1,6 +1,6 @@
 const express = require('express');
 const Order = require('../models/Order');
-const { optionalAuth, requireAuth } = require('../middleware/auth');
+const { optionalAuth, requireAuth, requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -53,7 +53,47 @@ router.get('/mine', requireAuth, async (req, res) => {
     }
 });
 
+/* ============================================================
+   Admin-only routes below (require a valid admin JWT token)
+   ============================================================ */
+
+// GET /api/orders/admin/all?status=pending  - every order, for the admin dashboard
+router.get('/admin/all', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const { status } = req.query;
+        const filter = {};
+        if (status) filter.status = status;
+
+        const orders = await Order.find(filter).sort({ createdAt: -1 });
+        res.json({ orders });
+    } catch (err) {
+        console.error('Admin get orders error:', err);
+        res.status(500).json({ message: 'Could not load orders.' });
+    }
+});
+
+// PATCH /api/orders/admin/:id/status  - update an order's status
+router.patch('/admin/:id/status', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const { status } = req.body;
+        const validStatuses = ['pending', 'paid', 'shipped', 'delivered', 'cancelled'];
+
+        if (!validStatuses.includes(status)) {
+            return res.status(400).json({ message: 'Invalid status value.' });
+        }
+
+        const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
+        if (!order) return res.status(404).json({ message: 'Order not found.' });
+
+        res.json({ order });
+    } catch (err) {
+        console.error('Update order status error:', err);
+        res.status(500).json({ message: 'Could not update order status.' });
+    }
+});
+
 // GET /api/orders/:id  - order confirmation lookup (used right after checkout)
+// NOTE: kept last so it doesn't swallow the /mine and /admin/* routes above.
 router.get('/:id', async (req, res) => {
     try {
         const order = await Order.findById(req.params.id);

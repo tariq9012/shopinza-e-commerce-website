@@ -1,12 +1,13 @@
 {
   "name": "shopinza-backend",
   "version": "1.0.0",
-  "description": "Backend API for the Shopinza e-commerce website (auth, orders, contact, newsletter, products).",
+  "description": "Backend API for the Shopinza e-commerce website (auth, orders, contact, newsletter, products, admin).",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "seed": "node seed/seedProducts.js"
+    "seed": "node seed/seedProducts.js",
+    "make-admin": "node seed/makeAdmin.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

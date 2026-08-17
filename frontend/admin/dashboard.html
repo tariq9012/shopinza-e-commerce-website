@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza Admin - Dashboard</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+    <!-- sidebar injected by admin-guard.js -->
+
+    <main class="admin-main">
+        <div class="admin-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Overview of your store's performance.</p>
+            </div>
+        </div>
+
+        <div id="dashboard-content">
+            <p class="loading-note">Loading dashboard…</p>
+        </div>
+    </main>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="js/admin-guard.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

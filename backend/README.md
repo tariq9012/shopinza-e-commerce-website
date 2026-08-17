@@ -24,7 +24,14 @@ Handles auth, orders/checkout, contact form, newsletter signups, and products.
    npm run seed
    ```
 
-4. Start the server:
+4. Create your admin account: sign up normally on the website (login.html → Sign Up),
+   then promote that account to admin:
+   ```
+   npm run make-admin your-email@example.com
+   ```
+   Sign in again at `login.html` — you'll be redirected to `admin/dashboard.html`.
+
+5. Start the server:
    ```
    npm run dev
    ```
@@ -66,6 +73,18 @@ server is running (defaults to `http://localhost:5000/api`).
 | Method | Route | Body | Description |
 |---|---|---|---|
 | POST | `/api/newsletter` | `{ email }` | Subscribe an email address |
+
+### Admin (all require a Bearer token from an "admin" role user)
+| Method | Route | Body | Description |
+|---|---|---|---|
+| GET | `/api/admin/stats` | — | Dashboard overview numbers |
+| POST | `/api/products` | product fields | Create a product |
+| PUT | `/api/products/id/:id` | product fields | Update a product |
+| DELETE | `/api/products/id/:id` | — | Delete a product |
+| GET | `/api/orders/admin/all` | `?status=pending` | List every order |
+| PATCH | `/api/orders/admin/:id/status` | `{ status }` | Update an order's status |
+| GET | `/api/contact` | — | List contact messages |
+| PATCH | `/api/contact/:id/resolve` | — | Toggle a message's resolved state |
 
 ## Notes
 

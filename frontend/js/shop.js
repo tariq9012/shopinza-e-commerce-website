@@ -7,6 +7,7 @@
    ========================================================== */
 
 let allProducts = [];
+let saleOnly = false;
 
 function getActiveCategories() {
     return Array.from(document.querySelectorAll('.js-filter-cat'))
@@ -27,7 +28,8 @@ function renderShopGrid() {
     let filtered = allProducts.filter((p) => {
         const matchesCategory = activeCategories.length === 0 || activeCategories.includes(p.category);
         const matchesPrice = p.price <= maxPrice;
-        return matchesCategory && matchesPrice;
+        const matchesSale = !saleOnly || (p.oldPrice && p.oldPrice > p.price);
+        return matchesCategory && matchesPrice && matchesSale;
     });
 
     if (sortSelect) {
@@ -66,6 +68,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const grid = document.getElementById('shop-grid');
     if (!grid) return;
 
+    // Read query params coming from links like shop.html?sort=latest or shop.html?sale=true
+    const urlParams = new URLSearchParams(window.location.search);
+    const sortParam = urlParams.get('sort');
+    const saleParam = urlParams.get('sale');
+
+    if (saleParam === 'true') {
+        saleOnly = true;
+        const pageTitle = document.querySelector('.page-title');
+        if (pageTitle) pageTitle.textContent = 'Sale';
+        const breadcrumbCurrent = document.querySelector('.breadcrumb .current');
+        if (breadcrumbCurrent) breadcrumbCurrent.textContent = 'Sale';
+    }
+
     const products = await Products.fetchAll();
 
     if (products === null) {
@@ -76,6 +91,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     allProducts = products;
+
+    // Pre-select "Latest" in the sort dropdown if it was requested via the URL
+    if (sortParam === 'latest') {
+        const sortSelect = document.querySelector('.js-sort');
+        if (sortSelect) {
+            const latestOption = Array.from(sortSelect.options).find((opt) => opt.value === 'Latest');
+            if (latestOption) sortSelect.value = 'Latest';
+        }
+    }
+
     renderShopGrid();
 
     /* ---------- Category filter ---------- */

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 /** Requires a valid "Authorization: Bearer <token>" header. */
 function requireAuth(req, res, next) {
@@ -35,4 +36,27 @@ function optionalAuth(req, _res, next) {
     next();
 }
 
-module.exports = { requireAuth, optionalAuth };
+/**
+ * Requires the signed-in user to have role "admin".
+ * Must be used AFTER requireAuth (needs req.userId already set).
+ */
+async function requireAdmin(req, res, next) {
+    try {
+        const user = await User.findById(req.userId);
+
+        if (!user) {
+            return res.status(401).json({ message: 'Please sign in again.' });
+        }
+
+        if (user.role !== 'admin') {
+            return res.status(403).json({ message: 'Admin access only.' });
+        }
+
+        req.user = user;
+        next();
+    } catch (err) {
+        return res.status(500).json({ message: 'Could not verify admin access.' });
+    }
+}
+
+module.exports = { requireAuth, optionalAuth, requireAdmin };
