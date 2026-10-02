@@ -8,6 +8,9 @@
    ========================================================== */
 
 let currentProduct = null;
+let selectedColor = null;
+let selectedSize = null;
+let viewerListenerRegistered = false;
 
 function getSlugFromUrl() {
     const params = new URLSearchParams(window.location.search);
@@ -48,7 +51,8 @@ function renderColorOptions(product) {
     }
 
     section.classList.remove('hidden');
-    label.textContent = product.colors[0].name;
+    selectedColor = product.colors[0].name;
+    label.textContent = selectedColor;
 
     container.innerHTML = product.colors
         .map(
@@ -65,9 +69,106 @@ function renderColorOptions(product) {
         swatch.addEventListener('click', () => {
             container.querySelectorAll('.js-color-swatch').forEach((s) => s.classList.remove('active'));
             swatch.classList.add('active');
-            label.textContent = swatch.dataset.color;
+            selectedColor = swatch.dataset.color;
+            label.textContent = selectedColor;
+            renderSizeOptions(currentProduct); // stock-per-size depends on which color is picked
+            updateAddToCartAvailability();
         });
     });
+}
+
+/** Only shown for products with variants (size/color-specific stock). */
+function renderSizeOptions(product) {
+    const section = document.getElementById('pd-sizes-section');
+    const container = document.getElementById('pd-size-options');
+    const label = document.getElementById('pd-size-label');
+    if (!section || !container) return;
+
+    if (!product.variants || product.variants.length === 0) {
+        section.classList.add('hidden');
+        return;
+    }
+
+    section.classList.remove('hidden');
+
+    const sizesToShow = product.sizes && product.sizes.length > 0 ? product.sizes : [...new Set(product.variants.map((v) => v.size))];
+
+    // keep the current size selection if it's still valid for the newly
+    // picked color, otherwise clear it and make the person pick again
+    const stillAvailable = sizesToShow.includes(selectedSize);
+    if (!stillAvailable) {
+        selectedSize = null;
+        label.textContent = 'Select a size';
+    }
+
+    container.innerHTML = sizesToShow
+        .map((size) => {
+            const variant = product.variants.find((v) => v.color === selectedColor && v.size === size);
+            const outOfStock = !variant || variant.stock <= 0;
+            const activeClass = size === selectedSize ? ' active' : '';
+            const oosClass = outOfStock ? ' out-of-stock' : '';
+            return `<button type="button" class="pd-size-btn js-size-btn${activeClass}${oosClass}" data-size="${escapeHtml(size)}" ${outOfStock ? 'disabled' : ''}>${escapeHtml(size)}</button>`;
+        })
+        .join('');
+
+    container.querySelectorAll('.js-size-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            container.querySelectorAll('.js-size-btn').forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSize = btn.dataset.size;
+            label.textContent = selectedSize;
+            updateAddToCartAvailability();
+        });
+    });
+}
+
+/** Finds the variant matching the currently-selected color+size, if any. */
+function getSelectedVariant(product) {
+    if (!product.variants || product.variants.length === 0) return null;
+    return product.variants.find((v) => v.color === selectedColor && v.size === selectedSize) || null;
+}
+
+/**
+ * Updates the stock note + enables/disables Add to Cart based on the
+ * selected color/size combination (for products with variants) or the
+ * product's flat `stock` field (for products without variants).
+ */
+function updateAddToCartAvailability() {
+    if (!currentProduct) return;
+
+    const stockNoteEl = document.getElementById('pd-stock-note');
+    const addToCartBtn = document.querySelector('.js-pd-add-cart');
+    const buyNowBtn = document.querySelector('.js-pd-buy-now');
+    const hasVariants = currentProduct.variants && currentProduct.variants.length > 0;
+
+    let available;
+    let note;
+
+    if (hasVariants) {
+        if (!selectedSize) {
+            available = 0;
+            note = 'Please select a size';
+        } else {
+            const variant = getSelectedVariant(currentProduct);
+            available = variant ? variant.stock : 0;
+            note = available > 0 ? `Only ${available} left in stock` : 'Out of stock in this size/color';
+        }
+    } else {
+        available = currentProduct.stock;
+        note = available > 0 ? `Only ${available} left in stock` : 'Currently out of stock';
+    }
+
+    if (stockNoteEl) stockNoteEl.textContent = note;
+
+    const disabled = available <= 0;
+    if (addToCartBtn) {
+        addToCartBtn.disabled = disabled;
+        addToCartBtn.textContent = ''; // cleared then rebuilt below so the icon survives
+        addToCartBtn.innerHTML = disabled
+            ? (hasVariants && !selectedSize ? 'Select a Size' : 'Out of Stock')
+            : '<span class="material-symbols-outlined">shopping_bag</span> Add to Cart';
+    }
+    if (buyNowBtn) buyNowBtn.disabled = disabled;
 }
 
 function renderProduct(product) {
@@ -96,13 +197,8 @@ function renderProduct(product) {
         <span class="rating-count">${product.rating.toFixed(1)} (${product.reviewCount} reviews)</span>
     `;
 
-    document.getElementById('pd-stock-note').textContent =
-        product.stock > 0 ? `Only ${product.stock} left in stock` : 'Currently out of stock';
-
     document.getElementById('pd-specs-description').textContent =
         product.description || 'More details for this product will be added soon.';
-    document.getElementById('pd-reviews-summary').textContent =
-        `${product.reviewCount} verified reviews, averaging ${product.rating.toFixed(1)} out of 5 stars. Full review listing will be available in a future update.`;
     document.getElementById('pd-review-count').textContent = product.reviewCount;
 
     const actionsEl = document.getElementById('pd-actions');
@@ -111,14 +207,38 @@ function renderProduct(product) {
     actionsEl.dataset.price = product.price;
     actionsEl.dataset.image = product.image;
 
-    const addToCartBtn = actionsEl.querySelector('.js-pd-add-cart');
-    if (product.stock <= 0) {
-        addToCartBtn.disabled = true;
-        addToCartBtn.textContent = 'Out of Stock';
-    }
+    selectedColor = null;
+    selectedSize = null;
 
     renderGalleryThumbs(product);
-    renderColorOptions(product);
+    renderColorOptions(product); // sets selectedColor
+    renderSizeOptions(product); // depends on selectedColor being set above
+    updateAddToCartAvailability();
+
+    // ---------- "X people viewing this product" ----------
+    if (typeof AppSocket !== 'undefined') {
+        AppSocket.joinProduct(product.slug);
+
+        if (!viewerListenerRegistered) {
+            viewerListenerRegistered = true;
+            AppSocket.onProductViewers((data) => {
+                if (!currentProduct || data.slug !== currentProduct.slug) return;
+
+                const note = document.getElementById('pd-viewers-note');
+                const countEl = document.getElementById('pd-viewers-count');
+                if (!note || !countEl) return;
+
+                // only worth showing once there's actually a crowd - "1
+                // person viewing" (just you) isn't interesting to anyone
+                if (data.count > 1) {
+                    countEl.textContent = data.count;
+                    note.classList.remove('hidden');
+                } else {
+                    note.classList.add('hidden');
+                }
+            });
+        }
+    }
 
     document.dispatchEvent(new CustomEvent('products:rendered'));
 }
@@ -199,6 +319,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function addCurrentProductToCart() {
         if (!actionsEl || !currentProduct) return;
+
+        const hasVariants = currentProduct.variants && currentProduct.variants.length > 0;
+        if (hasVariants && (!selectedColor || !selectedSize)) return; // shouldn't happen - the button is disabled until both are picked
+
         const qty = getQty();
         for (let i = 0; i < qty; i++) {
             Cart.addItem({
@@ -206,6 +330,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 name: actionsEl.dataset.name,
                 price: actionsEl.dataset.price,
                 image: actionsEl.dataset.image,
+                color: hasVariants ? selectedColor : undefined,
+                size: hasVariants ? selectedSize : undefined,
             });
         }
     }
@@ -225,6 +351,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         buyNowBtn.addEventListener('click', () => {
             addCurrentProductToCart();
             window.location.href = 'cart.html';
+        });
+    }
+
+    /* ---------- Size chart modal ---------- */
+    const sizeChartOverlay = document.getElementById('size-chart-overlay');
+    const sizeChartOpenBtn = document.querySelector('.js-size-chart-open');
+    const sizeChartCloseBtn = document.getElementById('size-chart-close');
+
+    if (sizeChartOpenBtn && sizeChartOverlay) {
+        sizeChartOpenBtn.addEventListener('click', () => sizeChartOverlay.classList.remove('hidden'));
+    }
+    if (sizeChartCloseBtn && sizeChartOverlay) {
+        sizeChartCloseBtn.addEventListener('click', () => sizeChartOverlay.classList.add('hidden'));
+    }
+    if (sizeChartOverlay) {
+        sizeChartOverlay.addEventListener('click', (event) => {
+            if (event.target === sizeChartOverlay) sizeChartOverlay.classList.add('hidden');
         });
     }
 });

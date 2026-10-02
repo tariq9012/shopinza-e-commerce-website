@@ -60,6 +60,26 @@ button {
     padding: 0 24px 24px;
     border-bottom: 1px solid #262a37;
     margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-logo .logo-chip {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 4px 8px;
+    width: fit-content;
+}
+
+.admin-logo .logo-chip img {
+    display: block;
+    height: 18px !important;
+    width: auto !important;
+    max-width: none;
+    width: auto;
 }
 
 .admin-nav {
@@ -147,6 +167,39 @@ button {
     margin-bottom: 32px;
 }
 
+.chart-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.chart-wrap {
+    position: relative;
+    height: 260px;
+}
+
+.chart-wrap-tall {
+    height: 300px;
+}
+
+.low-stock-count {
+    display: inline-block;
+    background-color: #3a1010;
+    color: #f87171;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 2px 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    .chart-grid-2col {
+        grid-template-columns: 1fr;
+    }
+}
+
 .stat-card {
     background-color: #171a24;
     border: 1px solid #262a37;
@@ -229,6 +282,39 @@ button {
     object-fit: cover;
 }
 
+.image-upload-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.image-upload-preview img.thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #262a37;
+}
+
+.upload-status {
+    font-size: 12px;
+    color: #9a9aa5;
+}
+
+.upload-status.uploading {
+    color: #c4c1fb;
+}
+
+.upload-status.error {
+    color: #f87171;
+}
+
+.upload-status.success {
+    color: #4ade80;
+}
+
 .status-badge {
     display: inline-block;
     padding: 4px 10px;
@@ -243,6 +329,11 @@ button {
 .status-shipped { background-color: #10263a; color: #60a5fa; }
 .status-delivered { background-color: #1a3a10; color: #86efac; }
 .status-cancelled { background-color: #3a1010; color: #f87171; }
+
+.payment-cod { background-color: #2a2a35; color: #c9c9d1; }
+.payment-stripe { background-color: #241a3a; color: #b3a1ff; }
+.payment-jazzcash { background-color: #3a2410; color: #f5a94a; }
+.payment-easypaisa { background-color: #10352b; color: #4ade80; }
 
 .admin-select {
     background-color: #1e222e;

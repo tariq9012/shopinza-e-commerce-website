@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza - FAQ</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-container">
+        <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="Shopinza" style="height:28px;width:auto;display:block;" /></a>
+        <div class="link-list" id="nav-link-list">
+            <ul>
+                <li><a href="index.html" class="a">Home</a></li>
+                <li><a href="shop.html" class="a">Shop</a></li>
+                <li><a href="categories.html" class="a">Categories</a></li>
+                <li><a href="About.html" class="a">About</a></li>
+                <li><a href="contact.html" class="a">Contact</a></li>
+            </ul>
+        </div>
+        <div class="nav-icons">
+            <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">person</span></button>
+            <button class="icon-btn js-cart-icon"><span class="material-symbols-outlined">shopping_cart</span><span class="cart-badge" id="cart-badge">0</span></button>
+            <button class="icon-btn menu-toggle" id="menu-toggle-btn"><span class="material-symbols-outlined">menu</span></button>
+        </div>
+    </div>
+</nav>
+
+<main class="page-main">
+    <div class="content-page">
+        <span class="tag">Support</span>
+        <h1>Frequently Asked Questions</h1>
+        <p class="updated-note">Can't find what you're looking for? <a href="contact.html">Contact us</a> and we'll help you out.</p>
+
+        <details class="faq-item" open>
+            <summary>How long does delivery take?</summary>
+            <p>Standard shipping takes 3-5 business days. Express shipping (available at checkout for $25) arrives in 1-2 business days. You'll receive an email as soon as your order ships, and you can always check the live status from <a href="orders.html">My Orders</a>.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>What payment methods do you accept?</summary>
+            <p>We accept Credit/Debit cards (via Stripe), JazzCash, Easypaisa, and Cash on Delivery. All online payments are processed securely - we never store your card details on our servers.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Can I cancel my order after placing it?</summary>
+            <p>Yes - as long as your order hasn't shipped yet. Go to <a href="orders.html">My Orders</a> and click "Cancel Order" on any order that's still Pending or Paid. Once an order ships, it can no longer be self-cancelled; please <a href="contact.html">contact us</a> instead.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How do I return an item?</summary>
+            <p>See our full <a href="returns.html">Returns &amp; Refunds</a> page for the step-by-step process and eligibility window.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Do you ship internationally?</summary>
+            <p>Right now we only ship within Pakistan. We're working on expanding - check back soon!</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>I have a coupon code - how do I use it?</summary>
+            <p>Add your items to the cart, then on the Checkout page enter your code in the "Coupon code" box and click Apply. The discount will be reflected in your order total immediately.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How do I track my order?</summary>
+            <p>Log in and visit <a href="orders.html">My Orders</a> to see the live status of every order you've placed - it updates automatically the moment we ship it, no need to refresh.</p>
+        </details>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <h2>Shopinza</h2>
+            <p>Effortless luxury curated for the modern lifestyle. Redefining your everyday aesthetic.</p>
+        </div>
+        <div class="footer-links">
+            <h3>Customer Care</h3>
+            <ul>
+                <li><a href="shipping-info.html" class="a">Shipping Info</a></li>
+                <li><a href="returns.html" class="a">Returns</a></li>
+                <li><a href="faq.html" class="a">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="privacy-policy.html" class="a">Privacy Policy</a></li>
+                <li><a href="terms-of-service.html" class="a">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="https://instagram.com" target="_blank" rel="noopener"><span class="material-symbols-outlined">photo_camera</span></a>
+                <a href="https://x.com" target="_blank" rel="noopener"><span class="material-symbols-outlined">flutter_dash</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Shopinza. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+</body>
+</html>

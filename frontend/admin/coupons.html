@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza Admin - Coupons</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+    <!-- sidebar injected by admin-guard.js -->
+
+    <main class="admin-main">
+        <div class="admin-header">
+            <div>
+                <h1>Coupons</h1>
+                <p>Create and manage discount codes customers can apply at checkout.</p>
+            </div>
+            <button class="btn-admin-primary" id="add-coupon-btn">
+                <span class="material-symbols-outlined">add</span> New Coupon
+            </button>
+        </div>
+
+        <div class="admin-panel">
+            <div class="admin-table-wrap" id="coupons-table-wrap">
+                <p class="loading-note">Loading coupons…</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add / Edit coupon modal -->
+<div class="modal-overlay hidden" id="coupon-modal-overlay">
+    <div class="modal-box">
+        <h2 id="coupon-modal-title">New Coupon</h2>
+        <form id="coupon-form">
+            <input type="hidden" id="coupon-id" />
+
+            <div class="admin-field">
+                <label for="coupon-code">Code</label>
+                <input id="coupon-code" type="text" placeholder="e.g. WELCOME20" required style="text-transform:uppercase;" />
+            </div>
+
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="coupon-type">Discount Type</label>
+                    <select id="coupon-type" required>
+                        <option value="percent">Percent (%)</option>
+                        <option value="fixed">Fixed Amount ($)</option>
+                    </select>
+                </div>
+                <div class="admin-field">
+                    <label for="coupon-value">Value</label>
+                    <input id="coupon-value" type="number" min="0" step="0.01" required />
+                </div>
+            </div>
+
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="coupon-max-discount">Max Discount ($, optional)</label>
+                    <input id="coupon-max-discount" type="number" min="0" step="0.01" placeholder="No cap" />
+                </div>
+                <div class="admin-field">
+                    <label for="coupon-min-order">Minimum Order ($)</label>
+                    <input id="coupon-min-order" type="number" min="0" step="0.01" value="0" />
+                </div>
+            </div>
+
+            <div class="admin-field-row">
+                <div class="admin-field">
+                    <label for="coupon-usage-limit">Usage Limit (optional)</label>
+                    <input id="coupon-usage-limit" type="number" min="1" placeholder="Unlimited" />
+                </div>
+                <div class="admin-field">
+                    <label for="coupon-expires">Expires On (optional)</label>
+                    <input id="coupon-expires" type="date" />
+                </div>
+            </div>
+
+            <div class="checkbox-row" style="margin-top:4px;">
+                <input type="checkbox" id="coupon-active" checked />
+                <label for="coupon-active">Active</label>
+            </div>
+
+            <p id="coupon-form-feedback" class="hidden" style="color:#f87171; font-size:13px; margin-top:12px;"></p>
+
+            <div class="modal-actions">
+                <button type="button" class="admin-select" id="coupon-cancel-btn" style="cursor:pointer;">Cancel</button>
+                <button type="submit" class="btn-admin-primary">Save Coupon</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="js/admin-guard.js"></script>
+<script src="js/coupons-admin.js"></script>
+</body>
+</html>

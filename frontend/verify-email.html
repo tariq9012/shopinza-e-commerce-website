@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza - Verify Email</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="dark.css" />
+</head>
+<body>
+
+<div class="auth-shell">
+
+    <div class="auth-image-side">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsczLwAfpiSAAL8rwF36kyEC0VEb169H47rkxmZPpqET5Wb7hzhOceHk8VM3Y80U2PqdnEvlQ--e4nNaWeVGUAAY-MkLR_bPQYk6c7e8U0oNGtSUX9HgDxJKcRAJE3pjm_NwmyBQyztvsj9qfkrv949pw6tNqq1bSnLj4yg_ss8_QhJnUqHvFfOmjKWmoa9wws5k1WbHSI7hiKcRz2INLYhSlZ5z7_ciabtea-5U3vyN-jUcSwTpOOIA" alt="Shopina lifestyle" />
+        <span class="auth-brand-floating logo-chip"><img src="assets/images/logo.png" alt="Shopinza" style="height:22px;width:auto;display:block;" /></span>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-form-container">
+
+            <h1>Verifying your email…</h1>
+            <p id="verify-status" class="auth-hint" style="color:#c9c9d1;">Please wait a moment.</p>
+
+            <a id="verify-go-to-login" href="login.html" class="auth-submit hidden" style="display:block; text-align:center; text-decoration:none; margin-top:16px;">
+                Go to Sign In
+            </a>
+
+            <div id="verify-resend-wrap" class="hidden" style="margin-top:20px;">
+                <p class="auth-hint" style="color:#c9c9d1;">Need a new link? Enter your email and we'll resend it.</p>
+                <form id="form-verify-resend">
+                    <div class="auth-field">
+                        <div class="input-icon-wrap">
+                            <span class="material-symbols-outlined">mail</span>
+                            <input id="verify-resend-email" type="email" placeholder="name@example.com" required />
+                        </div>
+                    </div>
+                    <button class="auth-submit" type="submit">Resend Verification Email</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

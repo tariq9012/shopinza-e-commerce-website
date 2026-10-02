@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza - My Orders</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="style.css" />
+<style>
+    .orders-page-header {
+        max-width: 1200px;
+        margin: 40px auto 0;
+        padding: 0 24px;
+    }
+    .orders-page-header h1 { font-size: 28px; margin-bottom: 4px; }
+    .orders-page-header p { color: #6b6b76; font-size: 14px; }
+
+    .orders-list {
+        max-width: 1200px;
+        margin: 24px auto 80px;
+        padding: 0 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .order-card {
+        border: 1px solid #e5e5ea;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+    }
+    .order-card-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        background: #fafafc;
+        border-bottom: 1px solid #e5e5ea;
+    }
+    .order-card-header .meta { display: flex; gap: 28px; flex-wrap: wrap; }
+    .order-card-header .meta div { font-size: 13px; color: #6b6b76; }
+    .order-card-header .meta strong { display: block; color: #131b2e; font-size: 14px; margin-top: 2px; }
+
+    .order-status-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+    .order-status-badge.pending { background: #fff4e0; color: #9a6a00; }
+    .order-status-badge.paid { background: #e3ecff; color: #2648c9; }
+    .order-status-badge.shipped { background: #e6e9ff; color: #4b3fd6; }
+    .order-status-badge.delivered { background: #e2f7e6; color: #1e8f3e; }
+    .order-status-badge.cancelled { background: #fde5e5; color: #c1272d; }
+
+    .order-card-body { padding: 16px 20px; }
+    .order-items-preview { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+    .order-items-preview img {
+        width: 56px; height: 56px; border-radius: 8px; object-fit: cover; border: 1px solid #e5e5ea;
+    }
+    .order-items-preview .more-count {
+        width: 56px; height: 56px; border-radius: 8px; background: #f2f3ff;
+        display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4b3fd6; font-weight: 600;
+    }
+
+    .order-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .order-card-footer .total { font-weight: 700; font-size: 15px; }
+    .order-card-actions { display: flex; gap: 10px; }
+    .order-card-actions button, .order-card-actions a {
+        border: 1px solid #d9d9e3; background: #fff; border-radius: 8px;
+        padding: 8px 14px; font-size: 13px; cursor: pointer; text-decoration: none; color: #131b2e;
+    }
+    .order-card-actions .cancel-btn { border-color: #f3c8c8; color: #c1272d; }
+    .order-card-actions .cancel-btn:hover { background: #fde5e5; }
+
+    .orders-empty-state, .orders-loading {
+        text-align: center;
+        padding: 64px 24px;
+        color: #6b6b76;
+    }
+    .orders-empty-state .material-symbols-outlined { font-size: 48px; color: #c9c9d1; margin-bottom: 12px; }
+
+    .account-subnav {
+        display: flex;
+        gap: 8px;
+        max-width: 1200px;
+        margin: 16px auto 0;
+        padding: 0 24px;
+        flex-wrap: wrap;
+    }
+    .account-subnav a {
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 14px;
+        color: #6b6b76;
+        text-decoration: none;
+        border: 1px solid #e5e5ea;
+    }
+    .account-subnav a.active {
+        background: #131b2e;
+        color: #fff;
+        border-color: #131b2e;
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-container">
+        <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="Shopinza" style="height:28px;width:auto;display:block;" /></a>
+
+        <div class="link-list" id="nav-link-list">
+            <ul>
+                <li><a href="index.html" class="a">Home</a></li>
+                <li><a href="shop.html" class="a">Shop</a></li>
+                <li><a href="categories.html" class="a">Categories</a></li>
+                <li><a href="About.html" class="a">About</a></li>
+                <li><a href="contact.html" class="a">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-icons">
+            <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">person</span></button>
+            <button class="icon-btn js-cart-icon"><span class="material-symbols-outlined">shopping_cart</span><span class="cart-badge" id="cart-badge">0</span></button>
+            <button class="icon-btn menu-toggle" id="menu-toggle-btn"><span class="material-symbols-outlined">menu</span></button>
+        </div>
+    </div>
+</nav>
+
+<div class="orders-page-header">
+    <h1>My Account</h1>
+    <p>Track your order history and current deliveries.</p>
+</div>
+
+<div class="account-subnav">
+    <a href="orders.html" class="active">My Orders</a>
+    <a href="cancellations.html">Cancellations</a>
+    <a href="wishlist.html">My Wishlist</a>
+</div>
+
+<div class="orders-list" id="orders-list">
+    <div class="orders-loading">Loading your orders…</div>
+</div>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <h2>Shopinza</h2>
+            <p>Effortless luxury curated for the modern lifestyle. Redefining your everyday aesthetic.</p>
+        </div>
+
+        <div class="footer-links">
+            <h3>Customer Care</h3>
+            <ul>
+                <li><a href="shipping-info.html" class="a">Shipping Info</a></li>
+                <li><a href="returns.html" class="a">Returns</a></li>
+                <li><a href="faq.html" class="a">FAQ</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-links">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="privacy-policy.html" class="a">Privacy Policy</a></li>
+                <li><a href="terms-of-service.html" class="a">Terms of Service</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-links">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="https://instagram.com" target="_blank" rel="noopener"><span class="material-symbols-outlined">photo_camera</span></a>
+                <a href="https://x.com" target="_blank" rel="noopener"><span class="material-symbols-outlined">flutter_dash</span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 Shopinza. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="js/socket.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/orders.js"></script>
+</body>
+</html>

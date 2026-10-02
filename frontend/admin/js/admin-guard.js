@@ -52,6 +52,7 @@ const AdminGuard = {
             { id: 'dashboard', href: 'dashboard.html', icon: 'dashboard', label: 'Dashboard' },
             { id: 'products', href: 'products.html', icon: 'inventory_2', label: 'Products' },
             { id: 'orders', href: 'orders.html', icon: 'receipt_long', label: 'Orders' },
+            { id: 'coupons', href: 'coupons.html', icon: 'sell', label: 'Coupons' },
             { id: 'messages', href: 'messages.html', icon: 'mail', label: 'Messages' },
         ];
 
@@ -68,7 +69,7 @@ const AdminGuard = {
         const sidebar = document.createElement('aside');
         sidebar.className = 'admin-sidebar';
         sidebar.innerHTML = `
-            <div class="admin-logo">Shopinza Admin</div>
+            <div class="admin-logo"><span class="logo-chip"><img src="../assets/images/logo.png" alt="Shopinza" style="height:18px;width:auto;display:block;" /></span> Admin</div>
             <nav class="admin-nav">${navHtml}</nav>
             <div class="admin-sidebar-footer">
                 <a href="../index.html" class="admin-back-link">
@@ -86,10 +87,8 @@ const AdminGuard = {
         const logoutBtn = sidebar.querySelector('.js-admin-logout');
         logoutBtn.addEventListener('click', (event) => {
             event.preventDefault();
-            if (confirm('Sign out of the admin dashboard?')) {
-                Api.clearToken();
-                window.location.href = '../login.html';
-            }
+            Api.clearToken();
+            window.location.href = '../login.html';
         });
     },
 };

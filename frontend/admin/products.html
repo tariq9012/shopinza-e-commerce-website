@@ -59,8 +59,29 @@
                     </select>
                 </div>
                 <div class="admin-field">
-                    <label for="product-stock">Stock</label>
+                    <label for="product-stock">Stock <span style="font-weight:400; color:#9a9aa5;">(used only if this product has no colors/sizes below)</span></label>
                     <input id="product-stock" type="number" min="0" value="20" required />
+                </div>
+            </div>
+
+            <div class="admin-field">
+                <label>Colors <span style="font-weight:400; color:#9a9aa5;">(optional)</span></label>
+                <div id="product-colors-list"></div>
+                <button type="button" class="btn-admin-outline" id="add-color-row-btn" style="margin-top:8px;">
+                    <span class="material-symbols-outlined">add</span> Add Color
+                </button>
+            </div>
+
+            <div class="admin-field">
+                <label for="product-sizes">Sizes <span style="font-weight:400; color:#9a9aa5;">(comma-separated, e.g. S, M, L, XL — optional)</span></label>
+                <input id="product-sizes" type="text" placeholder="S, M, L, XL" />
+            </div>
+
+            <div class="admin-field hidden" id="product-variants-section">
+                <label>Stock per Color / Size</label>
+                <p style="color:#9a9aa5; font-size:12px; margin-bottom:8px;">Fill in how many units are in stock for each color+size combination.</p>
+                <div class="admin-table-wrap">
+                    <table class="admin-table" id="product-variants-table"></table>
                 </div>
             </div>
 
@@ -76,8 +97,21 @@
             </div>
 
             <div class="admin-field">
-                <label for="product-image">Main Image URL</label>
-                <input id="product-image" type="url" required placeholder="https://..." />
+                <label for="product-image-file">Main Image</label>
+                <input type="hidden" id="product-image" required />
+                <input id="product-image-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+                <div class="image-upload-preview" id="product-image-preview-wrap">
+                    <img id="product-image-preview" class="thumb hidden" alt="Main image preview" />
+                    <span id="product-image-status" class="upload-status"></span>
+                </div>
+            </div>
+
+            <div class="admin-field">
+                <label for="product-gallery-file">Gallery Images (optional, up to 6)</label>
+                <input id="product-gallery-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
+                <div class="image-upload-preview" id="product-gallery-preview-wrap">
+                    <span id="product-gallery-status" class="upload-status"></span>
+                </div>
             </div>
 
             <div class="admin-field">

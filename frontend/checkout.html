@@ -16,7 +16,7 @@
 
 <header class="navbar-dark">
     <div class="navbar-container">
-        <a href="index.html" class="logo">Shopinza</a>
+        <a href="index.html" class="logo logo-chip"><img src="assets/images/logo.png" alt="Shopinza" style="height:22px;width:auto;display:block;" /></a>
         <div class="secure-note"><span class="material-symbols-outlined" style="font-size:18px">lock</span> Secure Checkout</div>
         <button class="icon-btn js-cart-icon" style="margin-left:16px;"><span class="material-symbols-outlined">shopping_cart</span><span class="cart-badge" id="cart-badge">0</span></button>
     </div>
@@ -33,20 +33,22 @@
 
         <div class="checkout-forms">
 
-            <div class="step-tracker">
+            <div class="step-tracker" id="checkout-step-tracker">
                 <div class="step done">
                     <div class="step-icon"><span class="material-symbols-outlined" style="font-size:18px">check</span></div>
                     <span class="label">Information</span>
                 </div>
-                <div class="step active">
+                <div class="step active" id="step-shipping">
                     <div class="step-icon">2</div>
                     <span class="label">Shipping</span>
                 </div>
-                <div class="step">
+                <div class="step" id="step-payment">
                     <div class="step-icon">3</div>
                     <span class="label">Payment</span>
                 </div>
             </div>
+
+            <div id="shipping-step">
 
             <section class="form-panel">
                 <h2><span class="material-symbols-outlined">local_shipping</span> Shipping Address</h2>
@@ -60,6 +62,11 @@
                             <label for="last-name">Last Name</label>
                             <input id="last-name" type="text" placeholder="Doe" required />
                         </div>
+                    </div>
+                    <div class="field">
+                        <label for="checkout-email">Email Address</label>
+                        <input id="checkout-email" type="email" placeholder="name@example.com" required />
+                        <p style="color:#9a9aa5; font-size:12px; margin-top:4px;">We'll send your order confirmation and delivery updates here.</p>
                     </div>
                     <div class="field">
                         <label for="address">Address</label>
@@ -122,6 +129,65 @@
                 <button class="btn-continue" id="continue-payment-btn" type="button">Continue to Payment <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
             </div>
 
+            </div><!-- /#shipping-step -->
+
+            <div id="payment-step" class="hidden">
+
+                <section class="form-panel">
+                    <h2><span class="material-symbols-outlined">payments</span> Payment Method</h2>
+
+                    <div class="shipping-options" id="payment-method-options">
+                        <label class="shipping-option">
+                            <input type="radio" name="payment_method" value="cod" checked />
+                            <div class="shipping-option-text">
+                                <span class="title">Cash on Delivery</span>
+                                <span class="subtitle">Pay when your order arrives</span>
+                            </div>
+                            <span class="material-symbols-outlined">local_shipping</span>
+                        </label>
+                        <label class="shipping-option">
+                            <input type="radio" name="payment_method" value="stripe" />
+                            <div class="shipping-option-text">
+                                <span class="title">Credit / Debit Card</span>
+                                <span class="subtitle">Secure payment via Stripe</span>
+                            </div>
+                            <span class="material-symbols-outlined">credit_card</span>
+                        </label>
+                        <label class="shipping-option">
+                            <input type="radio" name="payment_method" value="jazzcash" />
+                            <div class="shipping-option-text">
+                                <span class="title">JazzCash</span>
+                                <span class="subtitle">Mobile wallet (Pakistan)</span>
+                            </div>
+                            <span class="material-symbols-outlined">smartphone</span>
+                        </label>
+                        <label class="shipping-option">
+                            <input type="radio" name="payment_method" value="easypaisa" />
+                            <div class="shipping-option-text">
+                                <span class="title">Easypaisa</span>
+                                <span class="subtitle">Mobile wallet (Pakistan)</span>
+                            </div>
+                            <span class="material-symbols-outlined">smartphone</span>
+                        </label>
+                    </div>
+
+                    <div id="stripe-card-panel" class="hidden" style="margin-top:20px;">
+                        <label style="font-size:13px; font-weight:600; color:#9a9aa5; display:block; margin-bottom:8px;">Card Details</label>
+                        <div id="stripe-card-element" style="background-color:#1e222e; border:1px solid #262a37; border-radius:8px; padding:14px;"></div>
+                        <p id="stripe-card-errors" class="hidden" style="color:#ff9b9b; font-size:13px; margin-top:8px;"></p>
+                    </div>
+
+                    <p id="payment-gateway-note" class="hidden" style="color:#9a9aa5; font-size:13px; margin-top:16px;"></p>
+                    <p id="payment-error" class="hidden" style="color:#ff9b9b; font-size:14px; margin-top:16px;"></p>
+                </section>
+
+                <div class="checkout-actions">
+                    <button class="link-back" id="back-to-shipping-btn" type="button" style="background:none; border:none; cursor:pointer;"><span class="material-symbols-outlined" style="font-size:18px">arrow_back</span> Back to Shipping</button>
+                    <button class="btn-continue" id="place-order-btn" type="button">Place Order <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
+                </div>
+
+            </div><!-- /#payment-step -->
+
         </div>
 
         <div class="checkout-summary">
@@ -136,6 +202,15 @@
                     <div class="row"><span>Subtotal</span><span id="checkout-subtotal">$0.00</span></div>
                     <div class="row"><span>Shipping</span><span id="checkout-shipping">Free</span></div>
                     <div class="row"><span>Tax</span><span>$0.00</span></div>
+                    <div class="row hidden" id="checkout-discount-row" style="color:#8de08d;"><span>Discount<span id="checkout-coupon-label"></span></span><span id="checkout-discount">-$0.00</span></div>
+                </div>
+
+                <div style="margin-top:16px;">
+                    <div style="display:flex; gap:8px;">
+                        <input id="coupon-input" type="text" placeholder="Coupon code" style="flex:1; background-color:#1e222e; border:1px solid #262a37; border-radius:8px; padding:10px 12px; color:#f5f5f7; font-size:14px; text-transform:uppercase;" />
+                        <button type="button" id="apply-coupon-btn" style="background-color:#2a2f3d; color:#f5f5f7; border:1px solid #3a3f4d; border-radius:8px; padding:0 16px; cursor:pointer; font-size:14px;">Apply</button>
+                    </div>
+                    <p id="coupon-feedback" class="hidden" style="font-size:13px; margin-top:8px;"></p>
                 </div>
 
                 <div class="summary-total">
@@ -156,23 +231,24 @@
         </div>
         <div class="footer-links">
             <h4>Company</h4>
-            <a href="#" class="a">About Us</a>
-            <a href="#" class="a">Sustainability</a>
+            <a href="About.html" class="a">About Us</a>
+            <a href="About.html" class="a">Sustainability</a>
         </div>
         <div class="footer-links">
             <h4>Support</h4>
-            <a href="#" class="a">Shipping Policy</a>
-            <a href="#" class="a">Returns</a>
+            <a href="shipping-info.html" class="a">Shipping Policy</a>
+            <a href="returns.html" class="a">Returns</a>
         </div>
         <div class="footer-links">
             <h4>Legal</h4>
-            <a href="#" class="a">Privacy</a>
-            <a href="#" class="a">Terms of Service</a>
+            <a href="privacy-policy.html" class="a">Privacy</a>
+            <a href="terms-of-service.html" class="a">Terms of Service</a>
         </div>
     </div>
     <div class="footer-bottom-dark">© 2026 Shopinza Luminous Luxury. All rights reserved.</div>
 </footer>
 
+<script src="https://js.stripe.com/v3/"></script>
 <script src="js/config.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/checkout.js"></script>

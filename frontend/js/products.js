@@ -7,7 +7,7 @@
    ========================================================== */
 
 const Products = {
-    /** Fetches products from the backend. Falls back to [] on error. */
+    /** Fetches products from the backend. Falls back to [] on error. Old-style, unpaginated (used by home page + admin table). */
     async fetchAll({ category, sort, limit } = {}) {
         const params = new URLSearchParams();
         if (category) params.set('category', category);
@@ -22,6 +22,42 @@ const Products = {
         } catch (err) {
             console.error('Products: could not load from backend', err);
             return null; // null = network/server error, distinct from [] = no results
+        }
+    },
+
+    /** Fetches "You May Also Like" recommendations for a product (frequently-bought-together + same-category fallback). Falls back to [] on error. */
+    async fetchRecommendations(slug, limit = 8) {
+        try {
+            const data = await Api.get(`/products/${slug}/recommendations?limit=${limit}`);
+            return data.recommendations || [];
+        } catch (err) {
+            console.error('Products: could not load recommendations', err);
+            return [];
+        }
+    },
+
+    /**
+     * Fetches one page of products, with optional search/category/price/sale
+     * filters. Used by the shop page. Returns
+     * { products, total, page, pageSize, totalPages } or null on error.
+     */
+    async fetchPage({ category, sort, search, page = 1, pageSize = 12, maxPrice, sale, color } = {}) {
+        const params = new URLSearchParams();
+        if (category) params.set('category', category);
+        if (sort) params.set('sort', sort);
+        if (search) params.set('search', search);
+        if (maxPrice) params.set('maxPrice', maxPrice);
+        if (sale) params.set('sale', 'true');
+        if (color) params.set('color', color);
+        params.set('page', page);
+        params.set('pageSize', pageSize);
+
+        try {
+            const data = await Api.get(`/products?${params.toString()}`);
+            return data;
+        } catch (err) {
+            console.error('Products: could not load from backend', err);
+            return null;
         }
     },
 

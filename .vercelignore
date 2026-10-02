@@ -1,0 +1,10 @@
+# keep secrets and repo internals out of any `vercel deploy` upload
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+.git
+node_modules
+.vscode

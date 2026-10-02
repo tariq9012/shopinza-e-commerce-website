@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shopinza - Order Confirmation</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="dark.css" />
+<style>
+    .confirmation-wrap {
+        max-width: 560px;
+        margin: 60px auto;
+        text-align: center;
+        background-color: #171a24;
+        border: 1px solid #262a37;
+        border-radius: 16px;
+        padding: 48px 32px;
+    }
+    .confirmation-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+    }
+    .confirmation-icon.success { background-color: rgba(76, 175, 80, 0.15); }
+    .confirmation-icon.success .material-symbols-outlined { color: #4caf50; font-size: 40px; }
+    .confirmation-icon.failed { background-color: rgba(255, 107, 107, 0.15); }
+    .confirmation-icon.failed .material-symbols-outlined { color: #ff6b6b; font-size: 40px; }
+    .confirmation-icon.pending { background-color: rgba(196, 193, 251, 0.15); }
+    .confirmation-icon.pending .material-symbols-outlined { color: #c4c1fb; font-size: 40px; }
+
+    .confirmation-wrap h1 { font-size: 24px; margin-bottom: 12px; }
+    .confirmation-wrap p.sub { color: #9a9aa5; font-size: 14px; margin-bottom: 28px; }
+
+    .order-id-chip {
+        display: inline-block;
+        background-color: #1e222e;
+        border: 1px solid #262a37;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-family: monospace;
+        font-size: 13px;
+        color: #c4c1fb;
+        margin-bottom: 12px;
+    }
+
+    .live-status-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: capitalize;
+        padding: 6px 14px;
+        border-radius: 999px;
+        margin-bottom: 28px;
+    }
+    .live-status-chip .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .live-status-chip.status-pending { background: #3a2f10; color: #f5c94a; }
+    .live-status-chip.status-paid { background: #10352b; color: #4ade80; }
+    .live-status-chip.status-shipped { background: #241a3a; color: #b3a1ff; }
+    .live-status-chip.status-delivered { background: #10352b; color: #4ade80; }
+    .live-status-chip.status-cancelled { background: #3a1010; color: #f87171; }
+
+    .confirmation-summary {
+        text-align: left;
+        border-top: 1px solid #262a37;
+        padding-top: 20px;
+        margin-bottom: 28px;
+    }
+    .confirmation-summary .summary-item { display: flex; gap: 12px; align-items: center; padding: 8px 0; }
+    .confirmation-summary .summary-item img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; }
+    .confirmation-total-row { display: flex; justify-content: space-between; font-weight: 700; padding-top: 12px; border-top: 1px solid #262a37; margin-top: 8px; }
+
+    .confirmation-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header class="navbar-dark">
+    <div class="navbar-container">
+        <a href="index.html" class="logo logo-chip"><img src="assets/images/logo.png" alt="Shopinza" style="height:22px;width:auto;display:block;" /></a>
+    </div>
+</header>
+
+<main class="dark-main">
+    <div class="confirmation-wrap" id="confirmation-wrap">
+        <p class="sub">Loading your order…</p>
+    </div>
+</main>
+
+<footer class="footer-dark">
+    <div class="footer-bottom-dark">© 2026 Shopinza Luminous Luxury. All rights reserved.</div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="js/socket.js"></script>
+<script>
+function formatPrice(n) {
+    return `$${Number(n).toFixed(2)}`;
+}
+
+// Everything that comes from the URL or the API is escaped before it goes into innerHTML.
+function esc(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+// only http(s) and site-relative image URLs are allowed (blocks javascript: URLs)
+function safeImageUrl(url) {
+    return /^(https?:\/\/|\/|[\w.-]+\/)/i.test(String(url || '')) && !/^\s*javascript:/i.test(String(url)) ? esc(url) : '';
+}
+
+async function renderConfirmation() {
+    const params = new URLSearchParams(window.location.search);
+    // Emailed "Track your order" links carry a signed read-only token in the URL FRAGMENT (#track=...).
+    // Read it once, keep it in memory only, and remove it from the address bar straight away so it
+    // isn't left in the visible URL, history entries, screenshots or copy-pasted links.
+    const trackMatch = /(?:^#|&)track=([A-Za-z0-9._-]{20,200})/.exec(window.location.hash);
+    if (trackMatch) {
+        OrderAccess.setTracking(trackMatch[1]);
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+
+    // the id from the URL must look like a real order id - anything else (e.g. injected HTML) is ignored
+    const rawOrderId = params.get('orderId');
+    const orderId = rawOrderId && /^[a-f0-9]{24}$/i.test(rawOrderId) ? rawOrderId : null;
+    const status = params.get('status') || 'success';
+    const wrap = document.getElementById('confirmation-wrap');
+
+    if (!orderId) {
+        wrap.innerHTML = `
+            <div class="confirmation-icon failed"><span class="material-symbols-outlined">error</span></div>
+            <h1>No order found</h1>
+            <p class="sub">We couldn't find an order to show you.</p>
+            <div class="confirmation-actions">
+                <a href="shop.html" class="btn-continue" style="text-decoration:none;">Continue Shopping</a>
+            </div>
+        `;
+        return;
+    }
+
+    if (status === 'failed') {
+        wrap.innerHTML = `
+            <div class="confirmation-icon failed"><span class="material-symbols-outlined">error</span></div>
+            <h1>Payment Failed</h1>
+            <p class="sub">Something went wrong while processing your payment. Your order hasn't been charged.</p>
+            <div class="order-id-chip">Order ID: ${orderId}</div>
+            <div class="confirmation-actions">
+                <a href="checkout.html" class="btn-continue" style="text-decoration:none;">Try Again</a>
+            </div>
+        `;
+        return;
+    }
+
+    // fetch the order so we can show a real summary (works for both success and pending states)
+    let order = null;
+    try {
+        // private endpoint: signed-in owners send their login token, guests send the
+        // order access token saved in this browser at checkout (see OrderAccess in config.js)
+        // (a signed-in user's login token, the checkout browser's order token, or an emailed tracking token)
+        const data = await Api.get(`/orders/${orderId}`, { auth: Api.isLoggedIn(), headers: OrderAccess.headers(orderId) });
+        order = data.order;
+    } catch (err) {
+        // fall through - we can still show a generic success message without the summary
+    }
+
+    // The ?status= in the URL is only a hint. "Payment Successful" is shown ONLY when the
+    // order itself says it was paid; otherwise we say we're still confirming the payment.
+    const isCod = order && order.paymentMethod === 'cod';
+    const isPaid = order && ['paid', 'shipped', 'delivered'].includes(order.status);
+    const isPendingPayment = order && !isCod && !isPaid && order.status === 'pending';
+    const refunded = order && ['succeeded', 'pending', 'manual_done'].includes(order.refundStatus);
+    // money arrived AFTER the order was cancelled (and hasn't been refunded yet)
+    const isLatePayment = Boolean(order && order.status === 'cancelled' && order.paymentIssue && !refunded) || (!order && status === 'late');
+    // a payment arrived for an attempt that was replaced when the payment method was switched
+    const isSuperseded = status === 'superseded';
+    const iconClass = isCod || isPendingPayment || isLatePayment || isSuperseded ? 'pending' : 'success';
+    const icon = isCod && !isSuperseded ? 'local_shipping' : isLatePayment || isSuperseded ? 'report' : isPendingPayment ? 'hourglass_top' : 'check_circle';
+    const title = isSuperseded ? 'Payment Attempt Replaced' : isCod ? 'Order Placed!' : isLatePayment ? 'Payment Received After Cancellation' : isPendingPayment ? 'Confirming Your Payment' : 'Payment Successful!';
+    const subtitle = isSuperseded
+        ? 'You changed the payment method for this order, so that payment attempt is no longer linked to it. If you were charged, do not pay again - support will reconcile and refund it.'
+        : isCod
+        ? "Your order is confirmed. You'll pay in cash when it arrives."
+        : isLatePayment
+          ? 'Payment was received after this order was cancelled. Do not pay again - support will reconcile and refund it.'
+          : refunded && order.status === 'cancelled'
+            ? 'This order was cancelled and your payment has been refunded (or the refund is being processed).'
+            : isPendingPayment
+          ? "We haven't received the payment confirmation yet. This page updates by itself once it arrives - if you were charged, don't pay again."
+          : order && order.status === 'cancelled'
+            ? 'This order was cancelled.'
+            : 'Your payment went through and your order is confirmed.';
+
+    let summaryHtml = '';
+    if (order) {
+        const itemsHtml = order.items
+            .map(
+                (item) => `
+                <div class="summary-item">
+                    <img src="${safeImageUrl(item.image)}" alt="" />
+                    <div class="summary-item-info">
+                        <span class="name">${esc(item.name)}</span><br/>
+                        ${item.color && item.size ? `${esc(item.color)} / ${esc(item.size)} · ` : ''}Qty ${Number(item.qty)} · ${formatPrice(item.price)}
+                    </div>
+                </div>`
+            )
+            .join('');
+
+        summaryHtml = `
+            <div class="confirmation-summary">
+                ${itemsHtml}
+                <div class="confirmation-total-row" style="font-weight:400; font-size:14px;">
+                    <span>Subtotal</span>
+                    <span>${formatPrice(order.subtotal)}</span>
+                </div>
+                ${
+                    order.discount > 0
+                        ? `<div class="confirmation-total-row" style="font-weight:400; font-size:14px; color:#8de08d;">
+                            <span>Discount${order.couponCode ? ` (${esc(order.couponCode)})` : ''}</span>
+                            <span>-${formatPrice(order.discount)}</span>
+                        </div>`
+                        : ''
+                }
+                <div class="confirmation-total-row">
+                    <span>Total</span>
+                    <span>${formatPrice(order.total)}</span>
+                </div>
+                ${
+                    order.gatewayPayment && order.gatewayPayment.currency && order.gatewayPayment.currency !== (order.currency || 'USD')
+                        ? `<div class="confirmation-total-row" style="font-weight:400; font-size:13px; color:#9a9aa5;">
+                            <span>Charged by ${esc(order.gatewayPayment.provider)}</span>
+                            <span>${esc(order.gatewayPayment.currency)} ${(Number(order.gatewayPayment.amountMinor) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                        </div>`
+                        : ''
+                }
+            </div>
+        `;
+    }
+
+    wrap.innerHTML = `
+        <div class="confirmation-icon ${iconClass}"><span class="material-symbols-outlined">${icon}</span></div>
+        <h1>${title}</h1>
+        <p class="sub">${subtitle}</p>
+        <div class="order-id-chip">Order ID: ${orderId}</div>
+        ${order ? `<div><span class="live-status-chip status-${esc(order.status)}" id="live-status-chip"><span class="dot"></span><span id="live-status-text">${esc(order.status)}</span></span></div>` : ''}
+        ${summaryHtml}
+        <div class="confirmation-actions">
+            <a href="shop.html" class="btn-continue" style="text-decoration:none;">Continue Shopping</a>
+        </div>
+    `;
+
+    // ---------- Live status updates (no refresh needed) ----------
+    // Joins this order's room and listens for pushes from the server the
+    // moment an admin changes its status (see backend/socket.js +
+    // orderRoutes.js's emitOrderUpdate calls).
+    if (order && typeof AppSocket !== 'undefined') {
+        AppSocket.joinOrder(orderId);
+        AppSocket.onOrderUpdate((payload) => {
+            if (payload.orderId !== orderId) return; // this page only cares about its own order
+
+            const chip = document.getElementById('live-status-chip');
+            const text = document.getElementById('live-status-text');
+            if (chip && text) {
+                chip.className = `live-status-chip status-${String(payload.status).replace(/[^a-z]/gi, '')}`;
+                text.textContent = payload.status;
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', renderConfirmation);
+</script>
+</body>
+</html>

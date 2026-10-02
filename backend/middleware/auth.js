@@ -11,11 +11,16 @@ function requireAuth(req, res, next) {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
         req.userId = decoded.userId;
         next();
     } catch (err) {
-        return res.status(401).json({ message: 'Invalid or expired token. Please sign in again.' });
+        // "expired: true" lets the frontend tell "access token just expired,
+        // try a silent refresh" apart from "token is outright invalid, log out".
+        return res.status(401).json({
+            message: 'Invalid or expired token. Please sign in again.',
+            expired: err.name === 'TokenExpiredError',
+        });
     }
 }
 
@@ -26,7 +31,7 @@ function optionalAuth(req, _res, next) {
 
     if (token) {
         try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const decoded = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
             req.userId = decoded.userId;
         } catch (err) {
             // ignore invalid token for optional auth

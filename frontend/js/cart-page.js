@@ -17,6 +17,7 @@ function renderCartItem(item) {
             <div class="cart-item-top">
                 <div>
                     <h3>${item.name}</h3>
+                    ${item.color && item.size ? `<p style="color:#9a9aa5; font-size:13px; margin-top:2px;">${item.color} / ${item.size}</p>` : ''}
                 </div>
                 <span class="cart-item-price">${Cart.formatPrice(item.price * item.qty)}</span>
             </div>

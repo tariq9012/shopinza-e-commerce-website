@@ -64,6 +64,23 @@ button {
     letter-spacing: -0.02em;
 }
 
+/* white chip behind the logo image so it stays legible on dark backgrounds */
+.logo-chip {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 4px 10px;
+    width: fit-content;
+}
+
+.logo-chip img {
+    display: block;
+    height: 22px !important;
+    width: auto !important;
+    max-width: none;
+}
+
 .navbar-dark .link-list {
     display: flex;
     gap: 32px;
@@ -589,6 +606,11 @@ button {
     cursor: pointer;
 }
 
+.shipping-option:has(input:checked) {
+    border-color: #c4c1fb;
+    background-color: #22273a;
+}
+
 .shipping-option input {
     accent-color: #c4c1fb;
 }
@@ -853,6 +875,10 @@ button {
 
 .social-btn:hover {
     background-color: #1e222e;
+}
+
+#google-signin-container {
+    flex: 1;
 }
 
 .auth-toggle {

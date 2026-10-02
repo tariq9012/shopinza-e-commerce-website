@@ -17,13 +17,13 @@
 <!-- navbar (same as home) -->
 <nav class="navbar">
     <div class="navbar-container">
-        <a href="index.html" class="logo">Shopinza</a>
+        <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="Shopinza" style="height:28px;width:auto;display:block;" /></a>
         <div class="link-list" id="nav-link-list">
             <ul>
                 <li><a href="index.html" class="a">Home</a></li>
                 <li><a href="shop.html" class="a active">Shop</a></li>
                 <li><a href="categories.html" class="a">Categories</a></li>
-                <li><a href="about.html" class="a">About</a></li>
+                <li><a href="About.html" class="a">About</a></li>
                 <li><a href="contact.html" class="a">Contact</a></li>
             </ul>
         </div>
@@ -74,6 +74,16 @@
                 </div>
             </div>
 
+            <div class="pd-sizes hidden" id="pd-sizes-section">
+                <h3>
+                    Size: <span id="pd-size-label">Select a size</span>
+                    <button type="button" class="pd-size-chart-link js-size-chart-open">Size Chart</button>
+                </h3>
+                <div class="pd-size-options" id="pd-size-options">
+                    <!-- size buttons injected dynamically by product.js -->
+                </div>
+            </div>
+
             <div class="pd-qty-row">
                 <div class="qty-control">
                     <button class="js-qty-minus"><span class="material-symbols-outlined">remove</span></button>
@@ -81,6 +91,10 @@
                     <button class="js-qty-plus"><span class="material-symbols-outlined">add</span></button>
                 </div>
                 <p class="stock-note" id="pd-stock-note"></p>
+                <p class="pd-viewers-note hidden" id="pd-viewers-note">
+                    <span class="pd-viewers-dot"></span>
+                    <span id="pd-viewers-count"></span> people viewing this product right now
+                </p>
             </div>
 
             <div class="pd-actions" id="pd-actions" data-id="" data-name="" data-price="" data-image="">
@@ -132,53 +146,80 @@
         </div>
         <div class="pd-tabs-content hidden" id="pd-tab-reviews">
             <div class="specs-list" style="grid-column: 1 / -1;">
-                <h3 style="margin-bottom:24px; color:#070235; font-size:22px;">Customer Reviews</h3>
-                <p id="pd-reviews-summary" style="color:#47464f;"></p>
+                <h3 style="margin-bottom:16px; color:#070235; font-size:22px;">Customer Reviews</h3>
+                <div class="pd-rating" id="pd-reviews-rating-summary"></div>
+
+                <p id="review-eligibility-note" class="hidden review-note"></p>
+
+                <form id="review-form" class="review-form hidden">
+                    <h4>Write a Review</h4>
+
+                    <div class="contact-field">
+                        <label>Your Rating</label>
+                        <div class="star-input" id="review-star-input">
+                            <button type="button" class="star-btn" data-value="1"><span class="material-symbols-outlined">star</span></button>
+                            <button type="button" class="star-btn" data-value="2"><span class="material-symbols-outlined">star</span></button>
+                            <button type="button" class="star-btn" data-value="3"><span class="material-symbols-outlined">star</span></button>
+                            <button type="button" class="star-btn" data-value="4"><span class="material-symbols-outlined">star</span></button>
+                            <button type="button" class="star-btn" data-value="5"><span class="material-symbols-outlined">star</span></button>
+                        </div>
+                        <input type="hidden" id="review-rating-value" value="0" />
+                    </div>
+
+                    <div class="contact-field">
+                        <label for="review-comment">Your Review</label>
+                        <textarea id="review-comment" maxlength="1000" required placeholder="Share your experience with this product..."></textarea>
+                    </div>
+
+                    <div class="contact-field">
+                        <label for="review-images">Add Photos (optional, up to 4)</label>
+                        <input type="file" id="review-images" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
+                        <div class="image-upload-preview" id="review-image-preview-wrap">
+                            <span id="review-image-status" class="upload-status"></span>
+                        </div>
+                    </div>
+
+                    <p id="review-form-feedback" class="hidden review-form-feedback"></p>
+                    <button type="submit" class="btn-primary" id="review-submit-btn">Submit Review</button>
+                </form>
+
+                <div id="pd-review-list" class="review-list">
+                    <p class="loading-note">Loading reviews…</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- related products -->
     <section class="related-section">
-        <h2>Complete Your Setup</h2>
-        <div class="related-grid">
-
-            <div class="related-card">
-                <div class="related-card-image">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiRm58r-HzgvsE10vk7IaVeSCiJLsch1yT_i4KLsuXeZkXutoWPwfqiJwxVnodSwEPSsm1p9ee9K0Yxp4BSU43pTZdQVyasTeoZpgeOxtL6NfjDrI6AdGeG7XPAAHJ8agu4ReTVGmNHMtQHVS_2JSGbsGwVqvtKyEC-Vc-P0JnNIEugDUD6DzUO3dxmRBG3_h_1zvs2RFKWbooUcZqKDJ4S0JHi4ztffArPpJ6NF7uCkNJXJh7zNHxeg" alt="Aluminum Headphone Stand" />
-                </div>
-                <h3>Aluminum Headphone Stand</h3>
-                <p>$49.00</p>
-            </div>
-
-            <div class="related-card">
-                <div class="related-card-image">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfUDd5xXMW1rVv8pj0kf0pESgexSzKTawEsqc5NJwvqR7Jr0lhPPM5iGg7yhjHp0yiGO82R-F5h5UuBAdwhELZPXh5JS4FEvX-8K7lcDB9_fryK9JkOyfTjqt7ay8XAtKt9cyba6f1UijW8X4BY3FrPahYV05Tp1N9RnO8C7HeSiGAmGdrzzeXMxvalnk4Yj_dFEpcESmMGYm2GhFCUNmVbsBFq0glcFOzWT8sNgziSt0H-URo7cpOgA" alt="Braided USB-C Cable" />
-                </div>
-                <h3>Braided USB-C Cable (2m)</h3>
-                <p>$24.00</p>
-            </div>
-
-            <div class="related-card">
-                <div class="related-card-image">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXNK-9lyrvRYufrsPZkYM8yUsgY5NxzMsUedO6GEX2v_y13veVqrOI2A5bzZITnZIiuLJ84g3iHSE8nJgPY82GvhRAxQBxejSZE4qnXVWMzqE95MC0ErFemoJZL-oV0UOUVoWApp07_Ma6eLgi0AJRl3HeY9PaZu1F9F5DsVmOSZPw2ZfAja0cZQ7oQNYk7VAvbKZeOrhhWmunb5r4V1zoF1hqWj3FYyNNz7x0pJJPLdYKb3ZgT7r2Xw" alt="Hard-Shell Travel Case" />
-                </div>
-                <h3>Hard-Shell Travel Case</h3>
-                <p>$35.00</p>
-            </div>
-
-            <div class="related-card">
-                <div class="related-card-image">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcjFN4G0P2nJXo2Wrs1nGCp9fQKAX4dAMILKdbtK27nxfmxwjMBholemq2tUpzr3oF0oWvBX2F1Uc9GRXHoPdDFKF8bAASEiEo4G6SkWbnb7-SB1c3Sl2BdcM9OVDPHhJm1XrsDYAKdw8bh9aqYZO1AVph33ZUCIAsIo3yv_BEobOndbAH3w3cOvXfzcX_W9rvK-lKihL09v-L8D6zfYMxDhUAsiAZQtV1cdkdw0c22qXNRjab5wwbsQ" alt="Hi-Res Audio Transmitter" />
-                </div>
-                <h3>Hi-Res Audio Transmitter</h3>
-                <p>$59.00</p>
-            </div>
-
+        <h2 id="pd-recs-heading">You May Also Like</h2>
+        <div class="shop-grid" id="pd-recommendations-grid">
+            <div style="grid-column: 1 / -1; text-align:center; padding: 24px; color:#47464f;">Loading recommendations…</div>
         </div>
     </section>
 
 </main>
+
+<!-- Size chart modal (generic reference guide, opened via the "Size Chart" link near the size selector) -->
+<div class="pd-modal-overlay hidden" id="size-chart-overlay">
+    <div class="pd-modal-box">
+        <h2>Size Chart</h2>
+        <p style="color:#47464f; font-size:13px; margin-bottom:8px;">Measurements in inches. For the best fit, compare these to a similar item you already own.</p>
+        <table class="pd-size-table">
+            <thead>
+                <tr><th>Size</th><th>Chest</th><th>Waist</th><th>Length</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>S</td><td>34–36</td><td>28–30</td><td>26</td></tr>
+                <tr><td>M</td><td>38–40</td><td>32–34</td><td>27</td></tr>
+                <tr><td>L</td><td>42–44</td><td>36–38</td><td>28</td></tr>
+                <tr><td>XL</td><td>46–48</td><td>40–42</td><td>29</td></tr>
+                <tr><td>XXL</td><td>50–52</td><td>44–46</td><td>30</td></tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn-outline" id="size-chart-close" style="margin-top:16px; width:100%;">Close</button>
+    </div>
+</div>
 
 <!-- footer (same as home) -->
 <footer class="footer">
@@ -190,25 +231,26 @@
         <div class="footer-links">
             <h3>Shop</h3>
             <ul>
-                <li><a href="#" class="a">New Arrivals</a></li>
-                <li><a href="#" class="a">Bestsellers</a></li>
-                <li><a href="#" class="a">Accessories</a></li>
+                <li><a href="shop.html?sort=latest" class="a">New Arrivals</a></li>
+                <li><a href="shop.html?sort=popular" class="a">Bestsellers</a></li>
+                <li><a href="shop.html?category=Accessories" class="a">Accessories</a></li>
             </ul>
         </div>
         <div class="footer-links">
             <h3>Support</h3>
             <ul>
-                <li><a href="#" class="a">Privacy Policy</a></li>
-                <li><a href="#" class="a">Terms of Service</a></li>
-                <li><a href="#" class="a">Shipping Info</a></li>
-                <li><a href="#" class="a">Returns</a></li>
+                <li><a href="privacy-policy.html" class="a">Privacy Policy</a></li>
+                <li><a href="terms-of-service.html" class="a">Terms of Service</a></li>
+                <li><a href="shipping-info.html" class="a">Shipping Info</a></li>
+                <li><a href="returns.html" class="a">Returns</a></li>
+                <li><a href="faq.html" class="a">FAQ</a></li>
             </ul>
         </div>
         <div class="footer-links">
             <h3>Follow Us</h3>
             <div class="social-icons">
-                <a href="#"><span class="material-symbols-outlined">photo_camera</span></a>
-                <a href="#"><span class="material-symbols-outlined">flutter_dash</span></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener"><span class="material-symbols-outlined">photo_camera</span></a>
+                <a href="https://x.com" target="_blank" rel="noopener"><span class="material-symbols-outlined">flutter_dash</span></a>
             </div>
         </div>
     </div>
@@ -218,9 +260,12 @@
 </footer>
 
 <script src="js/config.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="js/socket.js"></script>
 <script src="js/main.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/products.js"></script>
 <script src="js/product.js"></script>
+<script src="js/reviews.js"></script>
 </body>
 </html>

@@ -22,16 +22,70 @@ const Cart = {
     saveItems(items) {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
         document.dispatchEvent(new CustomEvent('cart:updated'));
+        this.syncToBackend(items);
     },
 
-    addItem({ id, name, price, image }) {
+    // Pushes the current cart to the backend so it survives a device/browser
+    // change or a cache clear. Fire-and-forget: a failed sync (offline,
+    // backend down) should never block using the cart locally.
+    syncToBackend(items) {
+        if (typeof Api === 'undefined' || !Api.isLoggedIn()) return;
+        Api.request('/cart', { method: 'PUT', body: { items }, auth: true }).catch((err) => {
+            console.warn('Cart: could not sync cart to server', err);
+        });
+    },
+
+    // Called right after a successful login (see auth.js). Combines whatever
+    // was in the guest cart on this device with whatever was already saved
+    // on the account (from another device/session), then saves the merged
+    // result both locally and back to the server.
+    async mergeAfterLogin() {
+        if (typeof Api === 'undefined' || !Api.isLoggedIn()) return;
+
+        const localItems = this.getItems();
+        let savedItems = [];
+        try {
+            const data = await Api.request('/cart', { auth: true });
+            savedItems = data.items || [];
+        } catch (err) {
+            console.warn('Cart: could not load saved cart', err);
+        }
+
+        const merged = savedItems.map((item) => ({ ...item }));
+        localItems.forEach((localItem) => {
+            const existing = merged.find((item) => item.id === localItem.id);
+            if (existing) {
+                existing.qty += localItem.qty;
+            } else {
+                merged.push({ ...localItem });
+            }
+        });
+
+        this.saveItems(merged);
+    },
+
+    /**
+     * `id` here is always the product's slug. When `color`/`size` are given
+     * (a variant was selected on the product page), the cart LINE gets its
+     * own composite id so different variants of the same product show up as
+     * separate lines - `productId` always stays the plain slug underneath,
+     * for stock lookups and checkout.
+     */
+    addItem({ id, name, price, image, color, size }) {
         const items = this.getItems();
-        const existing = items.find((item) => item.id === id);
+        const hasVariant = Boolean(color && size);
+        const lineId = hasVariant ? `${id}::${color}::${size}` : id;
+        const existing = items.find((item) => item.id === lineId);
 
         if (existing) {
             existing.qty += 1;
         } else {
-            items.push({ id, name, price: parseFloat(price) || 0, image, qty: 1 });
+            const newItem = { id: lineId, productId: id, name, price: parseFloat(price) || 0, image, qty: 1 };
+            if (hasVariant) {
+                newItem.color = color;
+                newItem.size = size;
+            }
+            items.push(newItem);
         }
 
         this.saveItems(items);
@@ -97,6 +151,11 @@ const Wishlist = {
         }
     },
 
+    saveIds(ids) {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(ids));
+        this.syncToBackend(ids);
+    },
+
     toggle(id) {
         let ids = this.getIds();
         if (ids.includes(id)) {
@@ -104,12 +163,43 @@ const Wishlist = {
         } else {
             ids.push(id);
         }
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(ids));
+        this.saveIds(ids);
         return ids.includes(id);
     },
 
     isFavorited(id) {
         return this.getIds().includes(id);
+    },
+
+    // Pushes the current wishlist to the backend so it survives a device/
+    // browser change or a cache clear, same as Cart.syncToBackend above.
+    syncToBackend(ids) {
+        if (typeof Api === 'undefined' || !Api.isLoggedIn()) return;
+        Api.request('/wishlist', { method: 'PUT', body: { productIds: ids }, auth: true }).catch((err) => {
+            console.warn('Wishlist: could not sync wishlist to server', err);
+        });
+    },
+
+    // Called right after login (see auth.js) and once per tab session on
+    // page load (see pullSavedWishlistOnce below) - combines whatever was
+    // favorited on this device as a guest with whatever was already saved
+    // on the account, then saves the merged result both locally and back
+    // to the server. Mirrors Cart.mergeAfterLogin.
+    async mergeAfterLogin() {
+        if (typeof Api === 'undefined' || !Api.isLoggedIn()) return;
+
+        const localIds = this.getIds();
+        let savedIds = [];
+        try {
+            const data = await Api.request('/wishlist', { auth: true });
+            savedIds = data.productIds || [];
+        } catch (err) {
+            console.warn('Wishlist: could not load saved wishlist', err);
+        }
+
+        const merged = Array.from(new Set([...savedIds, ...localIds]));
+        this.saveIds(merged);
+        refreshWishlistButtons();
     },
 };
 
@@ -154,9 +244,29 @@ function refreshWishlistButtons() {
     });
 }
 
+// Covers the "already logged in, but this browser/device has no local cart"
+// case (new browser, or localStorage/cache was cleared) - pulls the saved
+// cart down once per tab session so it doesn't fight with local changes.
+function pullSavedCartOnce() {
+    if (typeof Api === 'undefined' || !Api.isLoggedIn()) return;
+    if (sessionStorage.getItem('shopinza_cart_pulled')) return;
+    sessionStorage.setItem('shopinza_cart_pulled', '1');
+    Cart.mergeAfterLogin();
+}
+
+// Same idea as pullSavedCartOnce, but for the wishlist.
+function pullSavedWishlistOnce() {
+    if (typeof Api === 'undefined' || !Api.isLoggedIn()) return;
+    if (sessionStorage.getItem('shopinza_wishlist_pulled')) return;
+    sessionStorage.setItem('shopinza_wishlist_pulled', '1');
+    Wishlist.mergeAfterLogin();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     updateCartBadge();
     refreshWishlistButtons();
+    pullSavedCartOnce();
+    pullSavedWishlistOnce();
 
     // single delegated click handler - works for cards that exist now AND
     // cards that get rendered later (dynamic product listings)
