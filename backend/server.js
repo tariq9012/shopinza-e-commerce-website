@@ -134,33 +134,39 @@ initSocket(server);
 const isVercel = Boolean(process.env.VERCEL);
 const PORT = process.env.PORT || 5000;
 
-if (isVercel) {
-    server.listen(PORT);
-} else {
-    // ---- local development / any normal Node host ----
+if (!isVercel) {
+    // Local development / normal Node hosting only
     connectDB()
         .then(() => {
             server.listen(PORT, () => {
                 console.log(`Shopinza API listening on http://localhost:${PORT}`);
             });
 
-            // Periodically cancel Stripe/JazzCash/Easypaisa orders that never
-            // completed payment, so their reserved stock isn't locked up forever.
-            // (On Vercel this job runs through GET /api/cron/cancel-abandoned-orders
-            // instead - see routes/cronRoutes.js and vercel.json.)
-            const CLEANUP_INTERVAL_MINUTES = Number(process.env.ORDER_CLEANUP_INTERVAL_MINUTES) || 10;
-            setTimeout(() => cancelAbandonedOrders().catch((err) => console.error('Order cleanup job error:', err)), 15000);
+            const CLEANUP_INTERVAL_MINUTES =
+                Number(process.env.ORDER_CLEANUP_INTERVAL_MINUTES) || 10;
+
+            setTimeout(
+                () =>
+                    cancelAbandonedOrders().catch((err) =>
+                        console.error('Order cleanup job error:', err)
+                    ),
+                15000
+            );
+
             setInterval(
-                () => cancelAbandonedOrders().catch((err) => console.error('Order cleanup job error:', err)),
+                () =>
+                    cancelAbandonedOrders().catch((err) =>
+                        console.error('Order cleanup job error:', err)
+                    ),
                 CLEANUP_INTERVAL_MINUTES * 60 * 1000
             );
         })
         .catch((err) => {
-            // exiting is fine here: it's a dedicated local process, not a shared runtime
             console.error('MongoDB connection failed:', err.message);
             process.exit(1);
         });
 }
 
-// exported so tests can drive the exact same server (Vercel ignores it and uses the listen() above)
+// Vercel uses the exported HTTP server.
+// Socket.IO is already attached to this same server above.
 module.exports = server;
